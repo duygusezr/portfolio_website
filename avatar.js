@@ -154,18 +154,16 @@ if (container) {
 
                         const waveFlap = Math.sin(elapsed * 10.0) * 0.2;
 
-                        // ÜST KOL: Z negatif = kol yukarı kalkar (önceki denemelerde çalışıyordu)
+                        // ÜST KOL: X ekseninde sallanma
                         rightUpperArm.rotation.z = idleRightZ * (1 - weight) + (-0.6) * weight;
-                        rightUpperArm.rotation.x = -0.3 * weight;
-                        rightUpperArm.rotation.y = waveFlap * weight; // Y ekseninde sağa sola sallama
+                        rightUpperArm.rotation.x = (-0.3 + waveFlap) * weight;
+                        rightUpperArm.rotation.y = 0;
 
-                        // ALT KOL: Z negatif = dirsek öne doğru bükülür
-                        // Üst kol yukarıda olduğunda Z negatif forearm'ı öne/aşağı büker
-                        // Bu sayede el yüz hizasına gelir, avuç kameraya bakar
+                        // ALT KOL: X ekseninde sallanma
                         if (rightLowerArm) {
                             rightLowerArm.rotation.z = -Math.PI / 2 * weight;
-                            rightLowerArm.rotation.y = waveFlap * weight; // Alt kol da y ekseninde sallansın
-                            rightLowerArm.rotation.x = 0.5 * weight;
+                            rightLowerArm.rotation.y = 0;
+                            rightLowerArm.rotation.x = (0.5 + waveFlap) * weight;
                         }
 
                         if (rightHand) {
