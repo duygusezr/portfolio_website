@@ -154,21 +154,34 @@ if (container) {
 
                         const waveFlap = Math.sin(elapsed * 12.0) * 0.15;
 
-                        // Üst kol (Omuz): NEGATİF Z kolu havaya kaldırır! (-0.5 kafa yanına uygun)
+                        /* 
+                           EL VE KOL AYARLARI REHBERİ (ELA İskeleti):
+                           - rightUpperArm (Omuz): 
+                                .z: Negatif (-0.5) kolu havaya kaldırır, Pozitif (1.2) kolu aşağı (gövdeye) indirir.
+                                .x: Negatif (-0.4) kolu hafifçe öne/kameraya doğru uzatır.
+                           - rightLowerArm (Dirsek):
+                                .z: Negatif (-1.5) dirseği büker. Bu sayede el belden yukarı, yüz hizasına çıkar.
+                                .x: waveFlap ile birleşerek kolun sallanma (titreme) hareketini yapar.
+                           - rightHand (Bilek/Avuç İçi):
+                                .y: Avuç içini (palm) döndürür. (1.3) değeri avucu tam size/kameraya çevirir.
+                                .z: Parmakların sağa sola selam verir gibi yatmasını sağlar.
+                        */
+
+                        // ÜST KOL: Kolu omuzdan havaya kaldırıyoruz
                         rightUpperArm.rotation.z = (idleRightZ * (1 - weight)) + (-0.5 * weight);
-                        rightUpperArm.rotation.x = -0.4 * weight; // Hafif öne al
+                        rightUpperArm.rotation.x = -0.4 * weight;
                         rightUpperArm.rotation.y = 0;
 
-                        // Alt kol (Dirsek): Eli tam kafa yanına getiren güçlü büküm
+                        // DIRSEK: Kolu büküp eli kafa yanına getiriyoruz
                         if (rightLowerArm) {
-                            rightLowerArm.rotation.z = -1.5 * weight; // Kulağa doğru bük
-                            rightLowerArm.rotation.x = waveFlap * 0.5 * weight; // Sallama titremesi
+                            rightLowerArm.rotation.z = -1.5 * weight;
+                            rightLowerArm.rotation.x = waveFlap * 0.5 * weight;
                             rightLowerArm.rotation.y = 0;
                         }
 
-                        // El (Bilek): Avuç içini tam karşıya döndür
+                        // EL: Avuç içini döndürüp tam size bakmasını sağlıyoruz
                         if (rightHand) {
-                            rightHand.rotation.y = (1.3 + (mouseX * 0.4)) * weight; // Avuç size baksın
+                            rightHand.rotation.y = (1.3 + (mouseX * 0.4)) * weight;
                             rightHand.rotation.x = 0;
                             rightHand.rotation.z = waveFlap * weight;
                         }
