@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
             hero_title: "Yapay Zeka ve Oyun Geliştirici",
             hero_desc: "Doğal Dil İşleme (NLP), RAG, Agentic Frameworks (LLM) alanlarında ve Unity & Unreal Engine ile Oyun/VR teknolojilerinde uçtan uca, yüksek performanslı ve yenilikçi yazılım sistemleri inşa ediyorum.",
             btn_projects: "Projeleri Gör",
+            btn_cv: "Özgeçmiş (CV)",
             btn_contact: "İletişime Geç",
             title_ai: "Yapay Zeka & NLP",
             title_game: "Oyun & Simülasyon",
@@ -56,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
             hero_title: "AI & Game Developer",
             hero_desc: "I engineer end-to-end, high-performance, and innovative software systems focusing on NLP, RAG, Agentic Frameworks, and Game/VR technologies using Unity and Unreal Engine.",
             btn_projects: "View Projects",
+            btn_cv: "Download CV",
             btn_contact: "Contact Me",
             title_ai: "AI & NLP",
             title_game: "Game & Simulation",
@@ -107,6 +109,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 el.innerHTML = translations[lang][key];
             }
         });
+
+        // Update CV link specifically according to language
+        const cvBtn = document.getElementById('cv-download-btn');
+        if (cvBtn) {
+            cvBtn.href = lang === 'tr' ? 'assets/CV_TR.pdf' : 'assets/CV_EN.pdf';
+        }
     }
 
     langBtn.addEventListener('click', () => {
