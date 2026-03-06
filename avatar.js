@@ -154,16 +154,16 @@ if (container) {
 
                         const waveFlap = Math.sin(elapsed * 10.0) * 0.2;
 
-                        // ÜST KOL: X ekseninde sallanma
+                        // ÜST KOL: Y ekseninde sallanma
                         rightUpperArm.rotation.z = idleRightZ * (1 - weight) + (-0.6) * weight;
-                        rightUpperArm.rotation.x = (-0.3 + waveFlap) * weight;
-                        rightUpperArm.rotation.y = 0;
+                        rightUpperArm.rotation.x = -0.3 * weight;
+                        rightUpperArm.rotation.y = waveFlap * weight;
 
-                        // ALT KOL: X ekseninde sallanma
+                        // ALT KOL: Y ekseninde sallanma
                         if (rightLowerArm) {
                             rightLowerArm.rotation.z = -Math.PI / 2 * weight;
-                            rightLowerArm.rotation.y = 0;
-                            rightLowerArm.rotation.x = (0.5 + waveFlap) * weight;
+                            rightLowerArm.rotation.y = waveFlap * weight;
+                            rightLowerArm.rotation.x = 0.5 * weight;
                         }
 
                         if (rightHand) {
