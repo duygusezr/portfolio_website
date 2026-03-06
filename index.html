@@ -278,6 +278,28 @@
         </section>
     </main>
 
+    <!-- Chatbot Widget -->
+    <div class="chatbot-container">
+        <button class="chatbot-toggle" id="chatbotToggle">
+            <i class="fa-solid fa-robot"></i>
+        </button>
+        <div class="chatbot-window" id="chatbotWindow">
+            <div class="chatbot-header">
+                <div class="chatbot-title">
+                    <i class="fa-solid fa-robot"></i> Duygu-Bot 🤖
+                </div>
+                <button class="chatbot-close" id="chatbotClose"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <!-- Messages will be injected here via JS -->
+            </div>
+            <div class="chatbot-input-area">
+                <input type="text" id="chatbotInput" class="chatbot-input" placeholder="Bana bir şey sorun..." />
+                <button class="chatbot-send" id="chatbotSend"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <p class="lang" data-key="footer_copy">&copy; 2026 Duygu Sezer. Tüm hakları saklıdır.</p>
     </footer>

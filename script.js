@@ -250,4 +250,97 @@ document.addEventListener('DOMContentLoaded', () => {
             blob.style.transform = `translate(${moveX}px, ${moveY}px)`;
         });
     });
+
+    /* --- Chatbot Logic --- */
+    const chatbotToggle = document.getElementById('chatbotToggle');
+    const chatbotWindow = document.getElementById('chatbotWindow');
+    const chatbotClose = document.getElementById('chatbotClose');
+    const chatbotInput = document.getElementById('chatbotInput');
+    const chatbotSend = document.getElementById('chatbotSend');
+    const chatbotMessages = document.getElementById('chatbotMessages');
+
+    let initialMessageSent = false;
+
+    // Toggle Chatbot
+    chatbotToggle.addEventListener('click', () => {
+        chatbotWindow.classList.toggle('active');
+        if (!initialMessageSent) {
+            setTimeout(() => {
+                addMessage("bot", currentLang === 'tr' ?
+                    "Merhaba! Ben Duygu-Bot. 🤖 Duygu hakkında ne öğrenmek istersiniz? (Örn: Yetenekleri neler, projeleri ne?)" :
+                    "Hi! I'm Duygu-Bot. 🤖 What would you like to know about Duygu? (e.g. skills, projects?)");
+            }, 300);
+            initialMessageSent = true;
+        }
+    });
+
+    chatbotClose.addEventListener('click', () => {
+        chatbotWindow.classList.remove('active');
+    });
+
+    // Send Message
+    const sendMessage = () => {
+        const text = chatbotInput.value.trim();
+        if (text === "") return;
+
+        addMessage("user", text);
+        chatbotInput.value = "";
+
+        // Change input placeholder temporarily
+        const oldPlaceholder = chatbotInput.placeholder;
+        chatbotInput.placeholder = currentLang === 'tr' ? "Yazıyor..." : "Typing...";
+        chatbotInput.disabled = true;
+
+        // Simulate thinking and process response
+        setTimeout(() => {
+            const response = generateBotResponse(text);
+            addMessage("bot", response);
+            chatbotInput.placeholder = oldPlaceholder;
+            chatbotInput.disabled = false;
+            chatbotInput.focus();
+        }, 800 + Math.random() * 700);
+    };
+
+    chatbotSend.addEventListener('click', sendMessage);
+    chatbotInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') sendMessage();
+    });
+
+    function addMessage(sender, text) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `chat-msg ${sender}`;
+        msgDiv.textContent = text;
+        chatbotMessages.appendChild(msgDiv);
+        chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+    }
+
+    function generateBotResponse(input) {
+        const lowerInput = input.toLowerCase();
+
+        if (currentLang === 'tr') {
+            if (lowerInput.includes('yetenek') || lowerInput.includes('dil') || lowerInput.includes('ne biliyor')) {
+                return "Duygu'nun teknik yelpazesi geniştir! Python, C#, C++, JavaScript kullanır. Unity ve Unreal Engine ile oyun/VR geliştirirken, yapay zekada LLaMA, RAG ve Agentic sistemlerle (LLM) ilgilenir. 🧠";
+            } else if (lowerInput.includes('proje') || lowerInput.includes('oyun') || lowerInput.includes('neler yaptı')) {
+                return "Birçok yenilikçi projesi var! En büyükleri: WebSocket'li 3D Avatar (ELA), Doğal Dil Tabanlı Analiz Sistemi, VR Deprem Simülasyonu ve 'Brewing Bad' adında oyun ekonomi simülasyonu bulunuyor. 🚀 (Daha fazlası yukarıdaki Projeler listesinde!)";
+            } else if (lowerInput.includes('merhaba') || lowerInput.includes('selam') || lowerInput.includes('hi')) {
+                return "Selam! 😄 Portfolyoda gezmek nasıl gidiyor? Duygu'nun yeteneklerini, projelerini merak ediyorsan hemen sorabilirsin.";
+            } else if (lowerInput.includes('iletişim') || lowerInput.includes('ulaş') || lowerInput.includes('mail')) {
+                return "Duygu'ya sezerduygu465@gmail.com adresinden veya LinkedIn (duygusezrr) üzerinden her zaman ulaşabilirsiniz! ✉️";
+            } else {
+                return "Hmm, buna cevap verecek kadar gelişmiş modellerim henüz eğitilmedi! 🤖 Lütfen projeler, yetenekler veya iletişim gibi konularda sorular sorar mısın?";
+            }
+        } else {
+            if (lowerInput.includes('skill') || lowerInput.includes('language') || lowerInput.includes('know')) {
+                return "Duygu has a broad technical stack! She uses Python, C#, C++, JavaScript. While she develops game/VR with Unity and Unreal Engine, she works with LLaMA, RAG and Agentic systems in AI. 🧠";
+            } else if (lowerInput.includes('project') || lowerInput.includes('game') || lowerInput.includes('did')) {
+                return "She actually has several innovative projects! Top ones: 3D Avatar with WebSocket (ELA), VR Earthquake Simulation, and a simulation game called 'Brewing Bad'. 🚀 (Check the section above for more!)";
+            } else if (lowerInput.includes('hi') || lowerInput.includes('hello')) {
+                return "Hello! 😄 How's your scrolling going? Feel free to ask me anything about Duygu's skills or projects.";
+            } else if (lowerInput.includes('contact') || lowerInput.includes('reach') || lowerInput.includes('email')) {
+                return "You can always reach Duygu at sezerduygu465@gmail.com or via LinkedIn (duygusezrr)! ✉️";
+            } else {
+                return "Hmm, my LLM weights haven't caught up to that yet! 🤖 Could you please ask about her projects, skills, or contact info?";
+            }
+        }
+    }
 });
