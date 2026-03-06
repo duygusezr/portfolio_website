@@ -81,7 +81,7 @@ if (container) {
 
     const clock = new THREE.Clock();
     let blinkTimer = 0;
-    let waveTimer = 5.0; // Every 5 seconds
+    let waveTimer = 5.0;
     let isWaving = false;
     let waveStartTime = 0;
 
@@ -93,7 +93,6 @@ if (container) {
         if (currentVrm) {
             currentVrm.update(deltaTime);
 
-            // Look At
             if (currentVrm.lookAt) {
                 const es = Math.min(1.5 * deltaTime, 1.0);
                 eyeCurrent.yaw += (-mouseX * 0.4 - eyeCurrent.yaw) * es;
@@ -111,7 +110,6 @@ if (container) {
             if (currentVrm.humanoid) {
                 const breathNorm = (Math.sin(elapsed * 0.35) + 1) / 2;
 
-                // Breathing
                 const leftShoulder = currentVrm.humanoid.getNormalizedBoneNode('leftShoulder');
                 const rightShoulder = currentVrm.humanoid.getNormalizedBoneNode('rightShoulder');
                 if (leftShoulder) leftShoulder.rotation.x = -breathNorm * 0.12;
@@ -126,7 +124,6 @@ if (container) {
                 const neck = currentVrm.humanoid.getNormalizedBoneNode('neck');
                 if (neck) neck.rotation.x = -breathNorm * 0.03;
 
-                // Wave timer
                 if (!isWaving) {
                     waveTimer -= deltaTime;
                     if (waveTimer <= 0) { isWaving = true; waveStartTime = elapsed; }
@@ -141,9 +138,7 @@ if (container) {
                     if (waveProgress > 3.0) {
                         isWaving = false;
                         waveTimer = 5.0;
-                        rightUpperArm.rotation.z = idleRightZ;
-                        rightUpperArm.rotation.x = 0;
-                        rightUpperArm.rotation.y = 0;
+                        rightUpperArm.rotation.x = 0; rightUpperArm.rotation.y = 0; rightUpperArm.rotation.z = idleRightZ;
                         if (rightLowerArm) { rightLowerArm.rotation.x = 0; rightLowerArm.rotation.y = 0; rightLowerArm.rotation.z = 0; }
                         if (rightHand) { rightHand.rotation.x = 0; rightHand.rotation.y = 0; rightHand.rotation.z = 0; }
                         currentVrm.expressionManager.setValue('happy', 0.0);
@@ -157,32 +152,30 @@ if (container) {
                         currentVrm.expressionManager.setValue('happy', Math.min(1.0, weight * 1.5));
                         currentVrm.expressionManager.setValue('joy', Math.min(1.0, weight * 1.5));
 
-                        const waveFlap = Math.sin(elapsed * 10.0) * 0.15;
+                        const waveFlap = Math.sin(elapsed * 12.0) * 0.15;
 
-                        // Üst kol (Omuz): Daha kısıtlı bir açıyla kaldır ki kafa yanından taşmasın
-                        rightUpperArm.rotation.z = idleRightZ * (1 - weight) + (-0.6) * weight;
-                        rightUpperArm.rotation.x = -0.5 * weight;
+                        // ÜST KOL: Kolu nazikçe yukarı ve öne kaldır
+                        rightUpperArm.rotation.z = idleRightZ * (1 - weight) + (-0.8) * weight;
+                        rightUpperArm.rotation.x = -0.4 * weight;
                         rightUpperArm.rotation.y = 0;
 
-                        // Alt kol (Dirsek): Eli tam kulak/kafa hizasına getir
+                        // ALT KOL: Dirseği bükerek eli kafa/omuz hizasına getir
                         if (rightLowerArm) {
-                            rightLowerArm.rotation.z = -1.1 * weight;
-                            rightLowerArm.rotation.x = 0;
+                            rightLowerArm.rotation.z = -1.2 * weight;
+                            rightLowerArm.rotation.x = waveFlap * weight; // Sallama titreşimi
                             rightLowerArm.rotation.y = 0;
                         }
 
-                        // El (Bilek): Avuç içini tam karşıya döndür (Y ekseniyle) ve sallan
+                        // EL: Avuç içini kameraya ve bakış yönüne çevir
                         if (rightHand) {
-                            rightHand.rotation.x = 0; // x'i sıfırladık
+                            rightHand.rotation.x = -0.5 * weight; // Avuç içini hafifçe öne eğ
 
-                            // Y ekseninde radyan döndürerek avuç içini (palm) tam karşıya aldık
-                            // mouseX takibiyle birleştirildi
-                            const baseRotationY = 1.3;
-                            const targetLookY = baseRotationY + (mouseX * 0.4);
+                            // MouseX ile uyumlu yönelme (Bakış yönüne doğru el döner)
+                            const baseRotationY = 0.2;
+                            const targetLookY = baseRotationY + (mouseX * 0.5);
                             rightHand.rotation.y = targetLookY * weight;
 
-                            // Z ekseniyle parmakları yukarı/yana hafif tilt yapıp sallıyoruz
-                            rightHand.rotation.z = (0.2 + waveFlap) * weight;
+                            rightHand.rotation.z = (0.3 + waveFlap) * weight; // Sallama eğimi
                         }
                     }
 
@@ -193,7 +186,6 @@ if (container) {
                 }
             }
 
-            // Blink
             blinkTimer -= deltaTime;
             if (blinkTimer < 0) {
                 currentVrm.expressionManager.setValue('blink', 1.0);
