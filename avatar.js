@@ -115,6 +115,11 @@ if (container) {
     const clock = new THREE.Clock();
     let blinkTimer = 0;
 
+    // Wave / Smile Animation State
+    let waveTimer = 10.0;
+    let isWaving = false;
+    let waveStartTime = 0;
+
     function animate() {
         requestAnimationFrame(animate);
 
@@ -144,7 +149,7 @@ if (container) {
                 } catch (e) { }
             }
 
-            // Simple Idle Breathing Animation (matching main.js)
+            // Simple Idle Breathing Animation & Waving (matching main.js)
             if (currentVrm.humanoid) {
                 const breathNorm = (Math.sin(elapsed * 0.35) + 1) / 2;
 
@@ -156,10 +161,73 @@ if (container) {
                 const leftUpperArm = currentVrm.humanoid.getNormalizedBoneNode('leftUpperArm');
                 const rightUpperArm = currentVrm.humanoid.getNormalizedBoneNode('rightUpperArm');
                 if (leftUpperArm) leftUpperArm.rotation.z = -1.2 - breathNorm * 0.06;
-                if (rightUpperArm) rightUpperArm.rotation.z = 1.2 + breathNorm * 0.06;
+                const defaultRightZ = 1.2 + breathNorm * 0.06;
 
                 const neck = currentVrm.humanoid.getNormalizedBoneNode('neck');
                 if (neck) neck.rotation.x = -breathNorm * 0.03;
+
+                // --- Wave Logic ---
+                if (!isWaving) {
+                    waveTimer -= deltaTime;
+                    if (waveTimer <= 0) {
+                        isWaving = true;
+                        waveStartTime = elapsed;
+                    }
+                }
+
+                const rightLowerArm = currentVrm.humanoid.getNormalizedBoneNode('rightLowerArm');
+                const rightHand = currentVrm.humanoid.getNormalizedBoneNode('rightHand');
+
+                if (isWaving && rightUpperArm && rightLowerArm) {
+                    const waveProgress = elapsed - waveStartTime;
+
+                    if (waveProgress > 3.0) {
+                        // End of wave
+                        isWaving = false;
+                        waveTimer = 10.0;
+                        rightUpperArm.rotation.z = defaultRightZ;
+                        rightUpperArm.rotation.x = 0;
+                        rightUpperArm.rotation.y = 0;
+                        rightLowerArm.rotation.z = 0;
+                        rightLowerArm.rotation.x = 0;
+                        if (rightHand) rightHand.rotation.z = 0;
+
+                        currentVrm.expressionManager.setValue('happy', 0.0);
+                        currentVrm.expressionManager.setValue('joy', 0.0);
+                    } else {
+                        // Transition weights for smooth start/end
+                        const transitionIn = Math.min(waveProgress * 3.0, 1.0);
+                        const transitionOut = Math.max(0, Math.min((3.0 - waveProgress) * 3.0, 1.0));
+                        const weight = Math.min(transitionIn, transitionOut);
+
+                        // Smile bright
+                        currentVrm.expressionManager.setValue('happy', Math.min(1.0, weight * 1.5));
+                        currentVrm.expressionManager.setValue('joy', Math.min(1.0, weight * 1.5));
+
+                        // Wave arm pose
+                        const targetUpperZ = -1.2;     // Raise arm up
+                        const targetUpperX = -0.5;     // Bring slightly forward
+                        const targetUpperY = -0.2;     // Rotate hand outward slightly
+
+                        rightUpperArm.rotation.z = defaultRightZ * (1.0 - weight) + targetUpperZ * weight;
+                        rightUpperArm.rotation.x = targetUpperX * weight;
+                        rightUpperArm.rotation.y = targetUpperY * weight;
+
+                        // Waving motion (Sine wave)
+                        const sineWave = Math.sin(elapsed * 15.0) * 0.6; // Rapid wave
+                        rightLowerArm.rotation.z = (1.5 + sineWave) * weight; // Bend elbow to 90deg and wave
+                        rightLowerArm.rotation.x = -0.2 * weight;
+
+                        if (rightHand) rightHand.rotation.z = sineWave * 0.5 * weight; // Hand secondary wave
+                    }
+                } else {
+                    // Normal idle
+                    if (rightUpperArm) {
+                        rightUpperArm.rotation.z = defaultRightZ;
+                        rightUpperArm.rotation.x = 0;
+                        rightUpperArm.rotation.y = 0;
+                    }
+                }
             }
 
             // Random Blinking
