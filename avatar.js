@@ -9,8 +9,8 @@ const container = document.getElementById('vrm-container');
 
 if (container) {
     const camera = new THREE.PerspectiveCamera(30.0, container.clientWidth / container.clientHeight, 0.1, 100.0);
-    // Adjusted initial camera position based on the reference main.js
-    camera.position.set(0.0, 1.15, 1.3);
+    // Adjusted camera position to frame the avatar more symmetrically
+    camera.position.set(0.0, 1.0, 1.45);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
@@ -23,7 +23,7 @@ if (container) {
     // Orbit controls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.screenSpacePanning = true;
-    controls.target.set(0.0, 1.15, 0.0);
+    controls.target.set(0.0, 1.0, 0.0);
     controls.enableZoom = false;
     controls.enablePan = false;
     controls.minAzimuthAngle = -Math.PI / 4;
