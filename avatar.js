@@ -159,26 +159,30 @@ if (container) {
 
                         const waveFlap = Math.sin(elapsed * 10.0) * 0.15;
 
-                        // Üst kol (Omuz): Kolu yukarı ve biraz öne kaldır
-                        rightUpperArm.rotation.z = idleRightZ * (1 - weight) + (-0.8) * weight;
-                        rightUpperArm.rotation.x = -0.4 * weight;
+                        // Üst kol (Omuz): Daha kısıtlı bir açıyla kaldır ki kafa yanından taşmasın
+                        rightUpperArm.rotation.z = idleRightZ * (1 - weight) + (-0.6) * weight;
+                        rightUpperArm.rotation.x = -0.5 * weight;
                         rightUpperArm.rotation.y = 0;
 
-                        // Alt kol (Dirsek): Kolu bükerek eli kafa hizasına getir
+                        // Alt kol (Dirsek): Eli tam kulak/kafa hizasına getir
                         if (rightLowerArm) {
-                            rightLowerArm.rotation.z = -1.3 * weight; // Dirsek bükümü
+                            rightLowerArm.rotation.z = -1.1 * weight;
                             rightLowerArm.rotation.x = 0;
                             rightLowerArm.rotation.y = 0;
                         }
 
-                        // El (Bilek): Avuç içi öne baksın ve sallansın
+                        // El (Bilek): Avuç içini tam karşıya döndür (Y ekseniyle) ve sallan
                         if (rightHand) {
-                            rightHand.rotation.x = -0.6 * weight; // Avuç içini kameraya çevir
-                            rightHand.rotation.z = (0.5 + waveFlap) * weight; // Sağa-sola sallama hareketi
+                            rightHand.rotation.x = 0; // x'i sıfırladık
 
-                            // Eli Ela'nın baktığı yöne (fareye) doğru çevir
-                            const targetLookY = 0.2 + (mouseX * 0.4);
+                            // Y ekseninde radyan döndürerek avuç içini (palm) tam karşıya aldık
+                            // mouseX takibiyle birleştirildi
+                            const baseRotationY = 1.3;
+                            const targetLookY = baseRotationY + (mouseX * 0.4);
                             rightHand.rotation.y = targetLookY * weight;
+
+                            // Z ekseniyle parmakları yukarı/yana hafif tilt yapıp sallıyoruz
+                            rightHand.rotation.z = (0.2 + waveFlap) * weight;
                         }
                     }
 
