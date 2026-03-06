@@ -658,13 +658,14 @@ footer {
 /* Responsive Updates */
 @media (max-width: 768px) {
     .hero {
-        padding-top: 130px;
-        align-items: flex-start;
+        padding-top: 100px;
+        min-height: auto;
     }
 
     .hero-container {
         flex-direction: column;
         text-align: center;
+        gap: 30px;
     }
 
     .hero-content {
@@ -675,7 +676,8 @@ footer {
     .hero-avatar {
         order: 1;
         width: 100%;
-        height: 350px;
+        height: 450px;
+        margin-bottom: -40px;
     }
 
     .hero h1 {

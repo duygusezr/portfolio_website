@@ -23,6 +23,9 @@ if (container) {
     renderer.domElement.style.outline = "none";
     container.appendChild(renderer.domElement);
 
+    // İlk açılışta mobilde boyut hatasını önlemek için tetikle
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
+
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.screenSpacePanning = true;
     controls.target.set(0.0, 1.05, 0.0);
@@ -199,8 +202,10 @@ if (container) {
     animate();
 
     window.addEventListener('resize', () => {
-        camera.aspect = container.clientWidth / container.clientHeight;
+        const w = container.clientWidth || window.innerWidth;
+        const h = container.clientHeight || 500;
+        camera.aspect = w / h;
         camera.updateProjectionMatrix();
-        renderer.setSize(container.clientWidth, container.clientHeight);
+        renderer.setSize(w, h);
     });
 }
