@@ -154,25 +154,23 @@ if (container) {
 
                         const waveFlap = Math.sin(elapsed * 12.0) * 0.15;
 
-                        // Üst kol (Omuz): Kolu hafif öne ve yana aç (Ekrandan taşmaz)
-                        rightUpperArm.rotation.z = (idleRightZ * (1 - weight)) + (0.4 * weight); // 0.4 = omzun hafif aşağı/yana açısı
-                        rightUpperArm.rotation.x = -0.3 * weight; // Hafif öne
+                        // Üst kol (Omuz): NEGATİF Z kolu havaya kaldırır! (-0.5 kafa yanına uygun)
+                        rightUpperArm.rotation.z = (idleRightZ * (1 - weight)) + (-0.5 * weight);
+                        rightUpperArm.rotation.x = -0.4 * weight; // Hafif öne al
                         rightUpperArm.rotation.y = 0;
 
-                        // Alt kol (Dirsek): Eli tam yüzün yanına getirecek güçlü büküm
+                        // Alt kol (Dirsek): Eli tam kafa yanına getiren güçlü büküm
                         if (rightLowerArm) {
-                            rightLowerArm.rotation.x = -1.6 * weight; // Dirsek yukarı bükülür
-                            rightLowerArm.rotation.y = waveFlap * 0.8 * weight; // Sallama titremesi
-                            rightLowerArm.rotation.z = 0;
+                            rightLowerArm.rotation.z = -1.5 * weight; // Kulağa doğru bük
+                            rightLowerArm.rotation.x = waveFlap * 0.5 * weight; // Sallama titremesi
+                            rightLowerArm.rotation.y = 0;
                         }
 
-                        // El (Bilek): AVUCU TAM KARŞIYA ÇEVİR
+                        // El (Bilek): Avuç içini tam karşıya döndür
                         if (rightHand) {
-                            // 1.8 radyanlık twist avucu tam kameraya döndürür
-                            const baseWristY = 1.8;
-                            rightHand.rotation.y = (baseWristY + (mouseX * 0.3)) * weight;
+                            rightHand.rotation.y = (1.3 + (mouseX * 0.4)) * weight; // Avuç size baksın
                             rightHand.rotation.x = 0;
-                            rightHand.rotation.z = waveFlap * weight; // Bilekten sallama desteği
+                            rightHand.rotation.z = waveFlap * weight;
                         }
                     }
 
