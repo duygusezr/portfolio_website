@@ -8,7 +8,6 @@ const container = document.getElementById('vrm-container');
 
 if (container) {
     const camera = new THREE.PerspectiveCamera(30.0, container.clientWidth / container.clientHeight, 0.1, 100.0);
-    // Move camera back (1.45 -> 1.8) and slightly up (1.0 -> 1.05) to see the hand when it's raised
     camera.position.set(0.0, 1.05, 1.8);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
@@ -82,7 +81,7 @@ if (container) {
 
     const clock = new THREE.Clock();
     let blinkTimer = 0;
-    let waveTimer = 10.0;
+    let waveTimer = 5.0;
     let isWaving = false;
     let waveStartTime = 0;
 
@@ -140,10 +139,8 @@ if (container) {
                     const waveProgress = elapsed - waveStartTime;
 
                     if (waveProgress > 3.0) {
-                        // Idle'a dön
                         isWaving = false;
-                        waveTimer = 10.0;
-
+                        waveTimer = 5.0;
                         rightUpperArm.rotation.z = idleRightZ;
                         rightUpperArm.rotation.x = 0;
                         rightUpperArm.rotation.y = 0;
@@ -162,29 +159,28 @@ if (container) {
 
                         const waveFlap = Math.sin(elapsed * 10.0) * 0.15;
 
-                        // Üst kol: Daha kontrollü bir açı (-1.0 -> -0.7) ki yanlardan taşmasın
+                        // Üst kol
                         rightUpperArm.rotation.z = idleRightZ * (1 - weight) + (-0.7) * weight;
-                        rightUpperArm.rotation.x = -0.3 * weight; // Hafifçe öne al ki derinlik kazansın
+                        rightUpperArm.rotation.x = -0.3 * weight;
                         rightUpperArm.rotation.y = 0;
 
-                        // Alt kol (dirsek bükümü): 
-                        // Eli tam kafa hizasına getirecek şekilde ayarlandı
+                        // Alt kol (dirsek)
                         if (rightLowerArm) {
                             rightLowerArm.rotation.z = -1.2 * weight;
                             rightLowerArm.rotation.x = waveFlap * weight;
-                            rightLowerArm.rotation.y = -0.4 * weight; // Eli biraz daha içe bakacak şekilde çevir
+                            rightLowerArm.rotation.y = -0.4 * weight;
                         }
 
-                        // El: Bilek sallama
+                        // El: avuç öne baksın (x negatif = parmaklar öne döner)
+                        // waveFlap ile bilek sallama eklendi
                         if (rightHand) {
-                            rightHand.rotation.z = (0.5 + waveFlap) * weight;
-                            rightHand.rotation.x = 0;
+                            rightHand.rotation.x = -0.5 * weight;           // ← avuç öne döner
+                            rightHand.rotation.z = (0.3 + waveFlap) * weight; // ← hafif tilt + sallama
                             rightHand.rotation.y = 0;
                         }
                     }
 
                 } else {
-                    // Idle
                     if (rightUpperArm) { rightUpperArm.rotation.z = idleRightZ; rightUpperArm.rotation.x = 0; rightUpperArm.rotation.y = 0; }
                     if (rightLowerArm) { rightLowerArm.rotation.x = 0; rightLowerArm.rotation.y = 0; rightLowerArm.rotation.z = 0; }
                     if (rightHand) { rightHand.rotation.x = 0; rightHand.rotation.y = 0; rightHand.rotation.z = 0; }
