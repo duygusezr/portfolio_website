@@ -204,24 +204,21 @@ if (container) {
                         currentVrm.expressionManager.setValue('happy', Math.min(1.0, weight * 1.5));
                         currentVrm.expressionManager.setValue('joy', Math.min(1.0, weight * 1.5));
 
-                        // Wave arm pose - using ONLY Z axis to avoid twisting the mesh (Gimbal Lock)
-                        // defaultRightZ is ~1.2 (down). 0.0 is horizontal. 
-                        const sineWave = Math.sin(elapsed * 12.0) * 0.3;
-                        const targetUpperZ = 0.3 + sineWave; // Raise arm near horizontal and flap
+                        // Wave arm pose - Natural "hand by the head" position
+                        const targetUpperX = -0.5; // Lift forward
+                        const targetUpperZ = 0.6;  // Lift side slightly
 
-                        rightUpperArm.rotation.z = defaultRightZ * (1.0 - weight) + targetUpperZ * weight;
-                        rightUpperArm.rotation.x = 0;
-                        rightUpperArm.rotation.y = 0;
+                        rightUpperArm.rotation.x = targetUpperX * weight;
+                        rightUpperArm.rotation.z = (defaultRightZ * (1.0 - weight)) + (targetUpperZ * weight);
+                        rightUpperArm.rotation.y = -0.2 * weight;
 
                         if (rightLowerArm) {
-                            rightLowerArm.rotation.z = 0;
-                            rightLowerArm.rotation.x = 0;
-                            rightLowerArm.rotation.y = 0;
-                        }
-                        if (rightHand) {
-                            rightHand.rotation.z = 0;
-                            rightHand.rotation.x = 0;
-                            rightHand.rotation.y = 0;
+                            // Bend elbow significantly to bring hand up
+                            const targetLowerX = -1.6;
+                            const waveMotion = Math.sin(elapsed * 12.0) * 0.4; // The actual side-to-side waving
+
+                            rightLowerArm.rotation.x = targetLowerX * weight;
+                            rightLowerArm.rotation.y = waveMotion * weight; // Wave from the elbow/forearm
                         }
                     }
                 } else {
