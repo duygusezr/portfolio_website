@@ -163,12 +163,12 @@ if (container) {
                         if (rightLowerArm) {
                             rightLowerArm.rotation.z = -Math.PI / 2 * weight;
                             rightLowerArm.rotation.y = waveFlap * weight;
-                            rightLowerArm.rotation.x = 0.5 * weight;
+                            rightLowerArm.rotation.x = 0.8 * weight;
                         }
 
                         if (rightHand) {
                             rightHand.rotation.x = -Math.PI / 2 * weight;
-                            rightHand.rotation.y = 0;
+                            rightHand.rotation.y = waveFlap * weight; // Sağ el de y ekseninde sallansın
                             rightHand.rotation.z = 0;
                         }
                     }
