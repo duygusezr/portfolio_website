@@ -48,28 +48,34 @@
     </div>
 
     <header class="hero" id="about">
-        <div class="hero-content">
-            <h1 class="reveal-up"><span class="lang" data-key="hero_hi"></span> <span class="gradient-text">Duygu
-                    Sezer</span></h1>
-            <h2 class="reveal-up delay-1 lang hero-subtitle" data-key="hero_title">Yapay Zeka ve Oyun Geliştirici
-            </h2>
-            <p class="reveal-up delay-2 lang hero-desc" data-key="hero_desc">
-                Doğal Dil İşleme (NLP), RAG, Agentic Frameworks (LLM) alanlarında ve Unity & Unreal Engine ile Oyun/VR
-                teknolojilerinde uçtan uca, yüksek performanslı ve yenilikçi yazılım sistemleri inşa ediyorum.
-            </p>
-            <div class="hero-buttons reveal-up delay-3">
-                <a href="#projects" class="btn primary-btn"><i class="fa-solid fa-rocket"></i> <span class="lang"
-                        data-key="btn_projects">Projeleri Gör</span></a>
-                <a href="assets/CV_TR.pdf" id="cv-download-btn" target="_blank" class="btn secondary-btn"><i
-                        class="fa-solid fa-file-pdf"></i> <span class="lang" data-key="btn_cv">CV İndir</span></a>
-                <a href="#contact" class="btn secondary-btn"><i class="fa-solid fa-envelope"></i> <span class="lang"
-                        data-key="btn_contact">İletişime Geç</span></a>
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="reveal-up"><span class="lang" data-key="hero_hi"></span> <span class="gradient-text">Duygu
+                        Sezer</span></h1>
+                <h2 class="reveal-up delay-1 lang hero-subtitle" data-key="hero_title">Yapay Zeka ve Oyun Geliştirici
+                </h2>
+                <p class="reveal-up delay-2 lang hero-desc" data-key="hero_desc">
+                    Doğal Dil İşleme (NLP), RAG, Agentic Frameworks (LLM) alanlarında ve Unity & Unreal Engine ile
+                    Oyun/VR
+                    teknolojilerinde uçtan uca, yüksek performanslı ve yenilikçi yazılım sistemleri inşa ediyorum.
+                </p>
+                <div class="hero-buttons reveal-up delay-3">
+                    <a href="#projects" class="btn primary-btn"><i class="fa-solid fa-rocket"></i> <span class="lang"
+                            data-key="btn_projects">Projeleri Gör</span></a>
+                    <a href="assets/CV_TR.pdf" id="cv-download-btn" target="_blank" class="btn secondary-btn"><i
+                            class="fa-solid fa-file-pdf"></i> <span class="lang" data-key="btn_cv">CV İndir</span></a>
+                    <a href="#contact" class="btn secondary-btn"><i class="fa-solid fa-envelope"></i> <span class="lang"
+                            data-key="btn_contact">İletişime Geç</span></a>
+                </div>
+                <div class="social-links reveal-up delay-4">
+                    <a href="https://github.com/duygusezr" target="_blank" aria-label="GitHub"><i
+                            class="fa-brands fa-github"></i></a>
+                    <a href="https://linkedin.com/in/duygusezrr" target="_blank" aria-label="LinkedIn"><i
+                            class="fa-brands fa-linkedin-in"></i></a>
+                </div>
             </div>
-            <div class="social-links reveal-up delay-4">
-                <a href="https://github.com/duygusezr" target="_blank" aria-label="GitHub"><i
-                        class="fa-brands fa-github"></i></a>
-                <a href="https://linkedin.com/in/duygusezrr" target="_blank" aria-label="LinkedIn"><i
-                        class="fa-brands fa-linkedin-in"></i></a>
+            <div class="hero-avatar reveal-up delay-2" id="vrm-container">
+                <!-- 3D VRM Avatar Canvas will be injected here -->
             </div>
         </div>
     </header>
@@ -286,7 +292,7 @@
         <div class="chatbot-window" id="chatbotWindow">
             <div class="chatbot-header">
                 <div class="chatbot-title">
-                    <i class="fa-solid fa-robot"></i> Duygu-Bot 🤖
+                    <i class="fa-solid fa-robot"></i> Duygu-Bot
                 </div>
                 <button class="chatbot-close" id="chatbotClose"><i class="fa-solid fa-xmark"></i></button>
             </div>
@@ -305,6 +311,19 @@
     </footer>
 
     <script src="script.js"></script>
+
+    <!-- 3D Avatar Map and Script -->
+    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.150.1/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.150.1/examples/jsm/",
+        "@pixiv/three-vrm": "https://unpkg.com/@pixiv/three-vrm@2.0.0/lib/three-vrm.module.js"
+      }
+    }
+    </script>
+    <script type="module" src="avatar.js"></script>
 </body>
 
 </html>
