@@ -154,28 +154,23 @@ if (container) {
 
                         const waveFlap = Math.sin(elapsed * 12.0) * 0.15;
 
-                        // ÜST KOL: Kolu nazikçe yukarı ve öne kaldır
-                        rightUpperArm.rotation.z = idleRightZ * (1 - weight) + (-0.8) * weight;
+                        // Üst kol (Omuz): Kolu daha kontrollü bir açıyla yukarı/yana al
+                        rightUpperArm.rotation.z = (idleRightZ * (1 - weight)) + (-0.5 * weight);
                         rightUpperArm.rotation.x = -0.4 * weight;
                         rightUpperArm.rotation.y = 0;
 
-                        // ALT KOL: Dirseği bükerek eli kafa/omuz hizasına getir
+                        // Alt kol (Dirsek): Dik bir dirsek bükümüyle eli kafa hizasına getir
                         if (rightLowerArm) {
-                            rightLowerArm.rotation.z = -1.2 * weight;
-                            rightLowerArm.rotation.x = waveFlap * weight; // Sallama titreşimi
-                            rightLowerArm.rotation.y = 0;
+                            rightLowerArm.rotation.z = -1.4 * weight;
+                            rightLowerArm.rotation.x = 0;
+                            rightLowerArm.rotation.y = waveFlap * 0.5 * weight;
                         }
 
-                        // EL: Avuç içini kameraya ve bakış yönüne çevir
+                        // El (Bilek): KRİTİK DÜZELTME - Eli bilekten çevirerek avuç içini karşıya al
                         if (rightHand) {
-                            rightHand.rotation.x = -0.5 * weight; // Avuç içini hafifçe öne eğ
-
-                            // MouseX ile uyumlu yönelme (Bakış yönüne doğru el döner)
-                            const baseRotationY = 0.2;
-                            const targetLookY = baseRotationY + (mouseX * 0.5);
-                            rightHand.rotation.y = targetLookY * weight;
-
-                            rightHand.rotation.z = (0.3 + waveFlap) * weight; // Sallama eğimi
+                            rightHand.rotation.y = (1.5 + (mouseX * 0.4)) * weight; // 90 derece twist + bakış takibi
+                            rightHand.rotation.x = -0.4 * weight; // Avucu öne eğ
+                            rightHand.rotation.z = (0.3 + waveFlap) * weight; // Parmak sallama hareketi
                         }
                     }
 
