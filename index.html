@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duygu Sezer | Portfolio</title>
+    <meta name="description" content="Duygu Sezer - Software Developer, AI & Game Dev Portfolio">
+    <link rel="stylesheet" href="style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome Library for clear icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <div class="background-effects">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="logo">Duygu<span class="gradient-text">.</span></div>
+        <ul class="nav-links">
+            <li><a href="#about" class="lang" data-key="nav_about">Hakkımda</a></li>
+            <li><a href="#projects-ai" class="lang" data-key="nav_ai">Yapay Zeka</a></li>
+            <li><a href="#projects-game" class="lang" data-key="nav_game">Oyun & Simülasyon</a></li>
+            <li><a href="#skills" class="lang" data-key="nav_skills">Yetenekler</a></li>
+            <li><a href="#contact" class="lang" data-key="nav_contact">İletişim</a></li>
+        </ul>
+        <!-- Language Switch / Mobile Menu -->
+        <div class="nav-controls">
+            <button id="lang-btn" class="lang-btn">EN</button>
+            <button class="menu-btn" id="mobile-menu-btn"><i class="fa-solid fa-bars"></i></button>
+        </div>
+    </nav>
+    <div class="mobile-nav" id="mobile-nav">
+        <ul>
+            <li><a href="#about" class="lang nav-link-mobile" data-key="nav_about">Hakkımda</a></li>
+            <li><a href="#projects-ai" class="lang nav-link-mobile" data-key="nav_ai">Yapay Zeka</a></li>
+            <li><a href="#projects-game" class="lang nav-link-mobile" data-key="nav_game">Oyun & Simülasyon</a></li>
+            <li><a href="#skills" class="lang nav-link-mobile" data-key="nav_skills">Yetenekler</a></li>
+            <li><a href="#contact" class="lang nav-link-mobile" data-key="nav_contact">İletişim</a></li>
+        </ul>
+    </div>
+
+    <header class="hero" id="about">
+        <div class="hero-content">
+            <h1 class="reveal-up"><span class="lang" data-key="hero_hi"></span> <span class="gradient-text">Duygu
+                    Sezer</span></h1>
+            <h2 class="reveal-up delay-1 lang hero-subtitle" data-key="hero_title">Yapay Zeka ve Oyun Geliştirici
+            </h2>
+            <p class="reveal-up delay-2 lang hero-desc" data-key="hero_desc">
+                Doğal Dil İşleme (NLP), RAG, Agentic Frameworks (LLM) alanlarında ve Unity & Unreal Engine ile Oyun/VR
+                teknolojilerinde uçtan uca, yüksek performanslı ve yenilikçi yazılım sistemleri inşa ediyorum.
+            </p>
+            <div class="hero-buttons reveal-up delay-3">
+                <a href="#projects-ai" class="btn primary-btn"><i class="fa-solid fa-rocket"></i> <span class="lang"
+                        data-key="btn_projects">Projeleri Gör</span></a>
+                <a href="#contact" class="btn secondary-btn"><i class="fa-solid fa-envelope"></i> <span class="lang"
+                        data-key="btn_contact">İletişime Geç</span></a>
+            </div>
+            <div class="social-links reveal-up delay-4">
+                <a href="https://github.com/duygusezr" target="_blank" aria-label="GitHub"><i
+                        class="fa-brands fa-github"></i></a>
+                <a href="https://linkedin.com/in/duygusezrr" target="_blank" aria-label="LinkedIn"><i
+                        class="fa-brands fa-linkedin-in"></i></a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <h2 class="section-title reveal-up"><span class="lang" data-key="projects_title">Projelerim</span> <span
+                    class="gradient-text"></span></h2>
+
+            <!-- Filter Options -->
+            <div class="filter-container reveal-up delay-1">
+                <button class="filter-btn active lang" data-filter="all" data-key="filter_all">Tümü</button>
+                <button class="filter-btn lang" data-filter="ai" data-key="title_ai">Yapay Zeka & NLP</button>
+                <button class="filter-btn lang" data-filter="game" data-key="title_game">Oyun & Simülasyon</button>
+            </div>
+
+            <div class="grid-container" id="project-container">
+
+                <!-- Category 1 Header -->
+                <h3 class="category-header reveal-up filter-item ai"><span class="lang" data-key="title_ai">Yapay Zeka &
+                        NLP</span> <span class="gradient-text">Projeleri</span></h3>
+
+                <!-- AI Project 1 -->
+                <article class="project-card glass-panel filter-item ai">
+                    <div class="project-image">
+                        <img src="assets/ela.jpeg" alt="ELA Avatar Projesi">
+                    </div>
+                    <div class="project-info">
+                        <h3 class="lang" data-key="p_ela_title">ELA — Gerçek Zamanlı 3D Avatar AI Asistan</h3>
+                        <p class="lang" data-key="p_ela_desc">Sesli konuşma, duygu analizi ve 3D avatar animasyonlarını
+                            WebSocket üzerinden gerçek zamanlı birleştiren yapay zeka asistanı. Yüz ifadeleri duygu
+                            analizine göre dinamik olarak değişir. Web Audio API ile lip-sync entegrasyonu ve
+                            milisaniyeler seviyesinde yanıt süreleri (Semantic Cache) sağlandı.</p>
+                        <div class="tags">
+                            <span>LLM</span><span>WebSocket</span><span>3D Avatar</span><span>NLP</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- AI Project 2 -->
+                <article class="project-card glass-panel filter-item ai">
+                    <div class="project-image">
+                        <img src="assets/rag.png" alt="RAG Projesi">
+                    </div>
+                    <div class="project-info">
+                        <h3 class="lang" data-key="p_rag_title">Doğal Dil Tabanlı Doküman Analiz Sistemi (RAG)</h3>
+                        <p class="lang" data-key="p_rag_desc">Türkçe PDF dokümanlar için Tesseract OCR ve yerel LLaMA
+                            modeli kullanan tam kapsamlı çevrimdışı (offline) asistan. ChromaDB vektör veritabanı ile
+                            hızlı anlamsal arama ve Docker ile güvenli bir ortam oluşturuldu.</p>
+                        <div class="tags">
+                            <span>RAG</span><span>LLaMA</span><span>ChromaDB</span><span>Docker</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/duygusezr/dogal-dil-tabanli-dokuman-analiz-sistemi"
+                                target="_blank"><i class="fa-brands fa-github"></i> <span class="lang"
+                                    data-key="link_source">Kaynak Kodu</span></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- AI Project 3 -->
+                <article class="project-card glass-panel filter-item ai">
+                    <div class="project-image">
+                        <img src="assets/teknofest_new.png" alt="Teknofest Otonom Asistan">
+                    </div>
+                    <div class="project-info">
+                        <h3 class="lang" data-key="p_tekno_title">TEKNOFEST 2025 - Otonom Müşteri Asistanı</h3>
+                        <p class="lang" data-key="p_tekno_desc">Telekom sektörü için LLM ve Agentic Framework tabanlı,
+                            uçtan uca çalışabilen otonom asistan. Dinamik araç kullanımı (Dynamic Tool Use) ve gelişmiş
+                            durum yönetimi (State Management) ile karmaşık müşteri talepleri uçtan uca yönetilir.</p>
+                        <div class="tags">
+                            <span>Agentic Framework</span><span>LLM</span><span>Python</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Category 2 Header -->
+                <h3 class="category-header reveal-up filter-item game spacer-top"><span class="lang"
+                        data-key="title_game">Oyun & Simülasyon</span> <span class="gradient-text">Projeleri</span></h3>
+
+                <!-- Game Project 4 -->
+                <article class="project-card glass-panel filter-item game">
+                    <div class="project-image">
+                        <img src="assets/vr.jpg" alt="VR Deprem Simülasyonu">
+                    </div>
+                    <div class="project-info">
+                        <h3 class="lang" data-key="p_vr_title">VR Deprem Simülasyonu</h3>
+                        <p class="lang" data-key="p_vr_desc">Unity ve Meta Quest SDK kullanılarak geliştirilen,
+                            etkileşimli eğitim simülasyonu. Spatial audio (uzamsal ses) ve fizik tabanlı nesne
+                            etkileşimleri ile bağımsız VR gözlükleri için gerçekçi ve optimize edilmiş bir deneyim
+                            sağlar.</p>
+                        <div class="tags">
+                            <span>Unity</span><span>Meta Quest SDK</span><span>VR</span><span>C#</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/duygusezr/AfetEgitimSimulasyonu" target="_blank"><i
+                                    class="fa-brands fa-github"></i> <span class="lang"
+                                    data-key="link_source">Kaynak</span></a>
+                            <a href="https://www.youtube.com/watch?v=yyv5Vn0qmk8" target="_blank"><i
+                                    class="fa-brands fa-youtube"></i> <span class="lang"
+                                    data-key="link_video">Video</span></a>
+                            <a href="https://duygusezrr.itch.io/afet-eitim-simlasyonu" target="_blank"><i
+                                    class="fa-brands fa-itch-io"></i> Itch.io</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Game Project 5 -->
+                <article class="project-card glass-panel filter-item game">
+                    <div class="project-image">
+                        <img src="assets/zombi.png" alt="Zombi FPS">
+                    </div>
+                    <div class="project-info">
+                        <h3 class="lang" data-key="p_zombi_title">Zombi FPS - UE5 Survival Game</h3>
+                        <p class="lang" data-key="p_zombi_desc">Unreal Engine 5 ve C++ kullanılarak geliştirilen hayatta
+                            kalma odaklı FPS oyunu. AI Behavior Trees ve Blackboards mantığı kullanılarak akıllı düşman
+                            navigasyonu, saldırı mekanikleri kurgulanmış ve oyun motoru içinde optimize edilmiştir.</p>
+                        <div class="tags">
+                            <span>Unreal Engine 5</span><span>C++</span><span>Behavior Trees</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://www.youtube.com/watch?v=khJbdWV_m3I" target="_blank"><i
+                                    class="fa-brands fa-youtube"></i> <span class="lang"
+                                    data-key="link_video">Video</span></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Game Project 6 -->
+                <article class="project-card glass-panel filter-item game">
+                    <div class="project-image">
+                        <img src="assets/brewing_bad.png" alt="Brewing Bad">
+                    </div>
+                    <div class="project-info">
+                        <h3 class="lang" data-key="p_brewing_title">Brewing Bad – Ekonomik Simülasyon</h3>
+                        <p class="lang" data-key="p_brewing_desc">Unity ve C# ile geliştirilen simülasyon oyunu.
+                            Karmaşık sipariş yönetimi, algoritmik ekonomik denge sistemleri, modüler UI bileşenleri ve
+                            durum odaklı (state-driven) oyun mantığı ile mükemmel bir denge kuruldu.</p>
+                        <div class="tags">
+                            <span>Unity</span><span>C#</span><span>Simulation</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://github.com/duygusezr/BrewingBadGame" target="_blank"><i
+                                    class="fa-brands fa-github"></i> <span class="lang"
+                                    data-key="link_source">Kaynak</span></a>
+                            <a href="https://duygusezrr.itch.io/brewing-bad" target="_blank"><i
+                                    class="fa-brands fa-itch-io"></i> <span class="lang"
+                                    data-key="link_play">Oyna</span></a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section">
+            <h2 class="section-title reveal-up" style="margin-bottom: 20px;"><span class="lang"
+                    data-key="skills_title">Teknik</span> <span class="gradient-text lang"
+                    data-key="skills_accent">Yetenekler</span></h2>
+            <div class="skills-grid">
+                <div class="skill-card glass-panel reveal-up">
+                    <i class="fa-solid fa-code"></i>
+                    <h3 class="lang" data-key="s_lang_title">Programlama Dilleri</h3>
+                    <p>Python, C#, C++, JavaScript, HTML, CSS</p>
+                </div>
+                <div class="skill-card glass-panel reveal-up delay-1">
+                    <i class="fa-solid fa-gamepad"></i>
+                    <h3 class="lang" data-key="s_game_title">Oyun Motorları</h3>
+                    <p>Unity, Unreal Engine 5</p>
+                    <p class="sub-detail">Blueprint Scripting, Meta Quest SDK (VR), Behavior Trees</p>
+                </div>
+                <div class="skill-card glass-panel reveal-up delay-2">
+                    <i class="fa-solid fa-microchip"></i>
+                    <h3 class="lang" data-key="s_ai_title">Yapay Zeka & NLP</h3>
+                    <p>Machine Learning, Deep Learning, NLP, RAG, LLM (LLaMA), LangChain</p>
+                    <p class="sub-detail">TensorFlow, ChromaDB, MCP</p>
+                </div>
+                <div class="skill-card glass-panel reveal-up delay-3">
+                    <i class="fa-solid fa-layer-group"></i>
+                    <h3 class="lang" data-key="s_web_title">Web & Veritabanı</h3>
+                    <p>.NET, React.js, RESTful API</p>
+                    <p class="sub-detail">PostgreSQL, PostGIS</p>
+                </div>
+                <div class="skill-card glass-panel reveal-up delay-4">
+                    <i class="fa-brands fa-docker"></i>
+                    <h3 class="lang" data-key="s_dev_title">DevOps & Araçlar</h3>
+                    <p>Docker, Git, GitHub</p>
+                    <p class="sub-detail">Agile, Scrum, CI/CD</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="contact-box glass-panel reveal-up">
+                <h2 class="lang" data-key="contact_title">Birlikte <span class="gradient-text">Çalışalım!</span></h2>
+                <p class="lang" data-key="contact_desc">Oyun geliştirme, Yapay Zeka (AI) projeleriniz için veya heyecan
+                    verici yenilikleri konuşmak için benimle iletişime geçebilirsiniz.</p>
+                <div class="contact-methods">
+                    <a href="mailto:sezerduygu465@gmail.com" class="btn primary-btn"><i
+                            class="fa-solid fa-envelope"></i> <span class="lang" data-key="btn_mail">E-Posta
+                            Gönder</span></a>
+                    <a href="tel:+905372791437" class="btn secondary-btn"><i class="fa-solid fa-phone"></i> <span
+                            class="lang" data-key="btn_phone">Beni Ara</span></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p class="lang" data-key="footer_copy">&copy; 2026 Duygu Sezer. Tüm hakları saklıdır.</p>
+        <p>Built with ❤️ and Modern Web Technologies</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
