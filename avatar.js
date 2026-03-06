@@ -8,9 +8,9 @@ const scene = new THREE.Scene();
 const container = document.getElementById('vrm-container');
 
 if (container) {
-    const camera = new THREE.PerspectiveCamera(25.0, container.clientWidth / container.clientHeight, 0.1, 20.0);
-    // Adjusted initial camera position to frame the upper body of the anime character
-    camera.position.set(0.0, 1.35, 3.5);
+    const camera = new THREE.PerspectiveCamera(30.0, container.clientWidth / container.clientHeight, 0.1, 100.0);
+    // Adjusted initial camera position based on the reference main.js
+    camera.position.set(0.0, 1.15, 1.3);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
@@ -20,27 +20,24 @@ if (container) {
     renderer.domElement.style.outline = "none";
     container.appendChild(renderer.domElement);
 
-    // Orbit controls (optional, allows rotating character but let's restrict it so user doesn't mess it up completely)
+    // Orbit controls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.screenSpacePanning = true;
-    controls.target.set(0.0, 1.35, 0.0);
+    controls.target.set(0.0, 1.15, 0.0);
     controls.enableZoom = false;
     controls.enablePan = false;
-    // Limit rotation so the user cannot see the back of the character or spin it crazily
-    controls.minAzimuthAngle = -Math.PI / 4; // -45 degrees
-    controls.maxAzimuthAngle = Math.PI / 4;  // +45 degrees
+    controls.minAzimuthAngle = -Math.PI / 4;
+    controls.maxAzimuthAngle = Math.PI / 4;
     controls.minPolarAngle = Math.PI / 2.5;
     controls.maxPolarAngle = Math.PI / 1.8;
     controls.update();
 
-    // Lighting
-    const light = new THREE.DirectionalLight(0xffffff, Math.PI);
-    light.position.set(1.0, 1.0, 1.0).normalize();
-    scene.add(light);
-    const light2 = new THREE.DirectionalLight(0xffffff, Math.PI * 0.5);
-    light2.position.set(-1.0, 0.5, -1.0).normalize();
-    scene.add(light2);
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.5);
+    // Lighting (Match reference main.js for realistic shading)
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 2.0);
+    directionalLight.position.set(1.0, 1.0, 1.0).normalize();
+    scene.add(directionalLight);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
     scene.add(ambientLight);
 
     let currentVrm = undefined;
@@ -59,20 +56,31 @@ if (container) {
             // Remove unused data from VRM to optimize
             VRMUtils.removeUnnecessaryVertices(gltf.scene);
             VRMUtils.removeUnnecessaryJoints(gltf.scene);
-
-            vrm.scene.rotation.y = 0; // Fixed rotation to face forward natively
             scene.add(vrm.scene);
 
             currentVrm = vrm;
+            vrm.scene.rotation.y = 0; // Fix rotation to face forward natively
 
-            // Simple "t-pose to idle pose" fix for anime VRMs (relaxing arms downwards)
-            vrm.humanoid.getNormalizedBoneNode('leftUpperArm').rotation.z = 1.2;
-            vrm.humanoid.getNormalizedBoneNode('rightUpperArm').rotation.z = -1.2;
+            // T-pose to idle pose fix for anime VRMs (relaxing arms downwards)
+            // Values matched exactly with reference main.js
+            const leftUpperArm = vrm.humanoid.getNormalizedBoneNode('leftUpperArm');
+            const rightUpperArm = vrm.humanoid.getNormalizedBoneNode('rightUpperArm');
+            if (leftUpperArm) leftUpperArm.rotation.z = -1.2;
+            if (rightUpperArm) rightUpperArm.rotation.z = 1.2;
+
+            // Bring shoulders slightly inward
+            const leftShoulder = vrm.humanoid.getNormalizedBoneNode('leftShoulder');
+            const rightShoulder = vrm.humanoid.getNormalizedBoneNode('rightShoulder');
+            if (leftShoulder) leftShoulder.rotation.z = -0.1;
+            if (rightShoulder) rightShoulder.rotation.z = 0.1;
 
             // Disable frustrating culling
             vrm.scene.traverse((obj) => {
                 obj.frustumCulled = false;
             });
+
+            // lookAt özelliğini yumuşak takip için manuel kontrol edebiliriz
+            if (vrm.lookAt) vrm.lookAt.autoUpdate = false;
 
             // Welcome blink animation
             setTimeout(() => {
@@ -83,14 +91,15 @@ if (container) {
             }, 1000);
         },
         (progress) => {
-            // Optional: You can handle loading bar here if needed
+            // Optional: loading progress
         },
         (error) => console.error(error)
     );
 
-    // Track mouse to make the character look at cursor
+    // Track mouse to make the character look at cursor smoothly
     let mouseX = 0;
     let mouseY = 0;
+    let eyeCurrent = { yaw: 0, pitch: 0 };
 
     window.addEventListener('mousemove', (event) => {
         const rect = container.getBoundingClientRect();
@@ -98,7 +107,7 @@ if (container) {
         mouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
         mouseY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
-        // Clamp values in case cursor is outside container to prevent extreme neck breaking
+        // Clamp values
         mouseX = Math.max(-1.5, Math.min(1.5, mouseX));
         mouseY = Math.max(-1.5, Math.min(1.5, mouseY));
     });
@@ -110,24 +119,47 @@ if (container) {
         requestAnimationFrame(animate);
 
         const deltaTime = clock.getDelta();
+        const elapsed = clock.getElapsedTime();
 
         if (currentVrm) {
             currentVrm.update(deltaTime);
 
             if (currentVrm.lookAt) {
-                // Adjust target vector according to mouse position
-                const targetX = mouseX * 2.5;
-                const targetY = 1.35 + mouseY * 1.5;
-                const targetZ = camera.position.z;
+                // Determine target yaw and pitch based on mouse position
+                const eyeTargetYaw = -mouseX * 0.4; // Reverse direction and limit multiplier
+                const eyeTargetPitch = mouseY * 0.3;
 
-                currentVrm.lookAt.lookAt(new THREE.Vector3(targetX, targetY, targetZ));
+                // Smooth eye movement
+                const es = Math.min(1.5 * deltaTime, 1.0);
+                eyeCurrent.yaw += (eyeTargetYaw - eyeCurrent.yaw) * es;
+                eyeCurrent.pitch += (eyeTargetPitch - eyeCurrent.pitch) * es;
+
+                try {
+                    if (typeof currentVrm.lookAt.yaw !== 'undefined') {
+                        currentVrm.lookAt.yaw = eyeCurrent.yaw;
+                        currentVrm.lookAt.pitch = eyeCurrent.pitch;
+                    } else if (currentVrm.lookAt.applier) {
+                        currentVrm.lookAt.applier.applyYawPitch(eyeCurrent.yaw, eyeCurrent.pitch);
+                    }
+                } catch (e) { }
             }
 
-            // Simple Idle Breathing Animation
-            const time = clock.elapsedTime;
-            const spine = currentVrm.humanoid.getNormalizedBoneNode('spine');
-            if (spine) {
-                spine.rotation.x = Math.sin(time * 2.0) * 0.02; // Very subtle breathing effect
+            // Simple Idle Breathing Animation (matching main.js)
+            if (currentVrm.humanoid) {
+                const breathNorm = (Math.sin(elapsed * 0.35) + 1) / 2;
+
+                const leftShoulder = currentVrm.humanoid.getNormalizedBoneNode('leftShoulder');
+                const rightShoulder = currentVrm.humanoid.getNormalizedBoneNode('rightShoulder');
+                if (leftShoulder) leftShoulder.rotation.x = -breathNorm * 0.12;
+                if (rightShoulder) rightShoulder.rotation.x = -breathNorm * 0.12;
+
+                const leftUpperArm = currentVrm.humanoid.getNormalizedBoneNode('leftUpperArm');
+                const rightUpperArm = currentVrm.humanoid.getNormalizedBoneNode('rightUpperArm');
+                if (leftUpperArm) leftUpperArm.rotation.z = -1.2 - breathNorm * 0.06;
+                if (rightUpperArm) rightUpperArm.rotation.z = 1.2 + breathNorm * 0.06;
+
+                const neck = currentVrm.humanoid.getNormalizedBoneNode('neck');
+                if (neck) neck.rotation.x = -breathNorm * 0.03;
             }
 
             // Random Blinking
@@ -137,7 +169,7 @@ if (container) {
                 setTimeout(() => {
                     if (currentVrm) currentVrm.expressionManager.setValue('blink', 0.0);
                 }, 150);
-                blinkTimer = 3 + Math.random() * 4; // next blink in 3-7 seconds
+                blinkTimer = 2 + Math.random() * 4; // next blink in 2-6 seconds
             }
         }
 
