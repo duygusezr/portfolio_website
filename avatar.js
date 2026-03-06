@@ -81,7 +81,7 @@ if (container) {
 
     const clock = new THREE.Clock();
     let blinkTimer = 0;
-    let waveTimer = 10.0;
+    let waveTimer = 5.0; // Every 5 seconds
     let isWaving = false;
     let waveStartTime = 0;
 
@@ -140,7 +140,7 @@ if (container) {
 
                     if (waveProgress > 3.0) {
                         isWaving = false;
-                        waveTimer = 10.0;
+                        waveTimer = 5.0;
                         rightUpperArm.rotation.z = idleRightZ;
                         rightUpperArm.rotation.x = 0;
                         rightUpperArm.rotation.y = 0;
@@ -175,7 +175,10 @@ if (container) {
                         if (rightHand) {
                             rightHand.rotation.x = -0.6 * weight; // Avuç içini kameraya çevir
                             rightHand.rotation.z = (0.5 + waveFlap) * weight; // Sağa-sola sallama hareketi
-                            rightHand.rotation.y = 0.2 * weight; // Hafif doğal bir bilek açısı
+
+                            // Eli Ela'nın baktığı yöne (fareye) doğru çevir
+                            const targetLookY = 0.2 + (mouseX * 0.4);
+                            rightHand.rotation.y = targetLookY * weight;
                         }
                     }
 
