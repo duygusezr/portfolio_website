@@ -154,23 +154,25 @@ if (container) {
 
                         const waveFlap = Math.sin(elapsed * 12.0) * 0.15;
 
-                        // Üst kol (Omuz): Kolu daha kontrollü bir açıyla yukarı/yana al
-                        rightUpperArm.rotation.z = (idleRightZ * (1 - weight)) + (-0.5 * weight);
-                        rightUpperArm.rotation.x = -0.4 * weight;
+                        // Üst kol (Omuz): Kolu hafif öne ve yana aç (Ekrandan taşmaz)
+                        rightUpperArm.rotation.z = (idleRightZ * (1 - weight)) + (0.4 * weight); // 0.4 = omzun hafif aşağı/yana açısı
+                        rightUpperArm.rotation.x = -0.3 * weight; // Hafif öne
                         rightUpperArm.rotation.y = 0;
 
-                        // Alt kol (Dirsek): Dik bir dirsek bükümüyle eli kafa hizasına getir
+                        // Alt kol (Dirsek): Eli tam yüzün yanına getirecek güçlü büküm
                         if (rightLowerArm) {
-                            rightLowerArm.rotation.z = -1.4 * weight;
-                            rightLowerArm.rotation.x = 0;
-                            rightLowerArm.rotation.y = waveFlap * 0.5 * weight;
+                            rightLowerArm.rotation.x = -1.6 * weight; // Dirsek yukarı bükülür
+                            rightLowerArm.rotation.y = waveFlap * 0.8 * weight; // Sallama titremesi
+                            rightLowerArm.rotation.z = 0;
                         }
 
-                        // El (Bilek): KRİTİK DÜZELTME - Eli bilekten çevirerek avuç içini karşıya al
+                        // El (Bilek): AVUCU TAM KARŞIYA ÇEVİR
                         if (rightHand) {
-                            rightHand.rotation.y = (1.5 + (mouseX * 0.4)) * weight; // 90 derece twist + bakış takibi
-                            rightHand.rotation.x = -0.4 * weight; // Avucu öne eğ
-                            rightHand.rotation.z = (0.3 + waveFlap) * weight; // Parmak sallama hareketi
+                            // 1.8 radyanlık twist avucu tam kameraya döndürür
+                            const baseWristY = 1.8;
+                            rightHand.rotation.y = (baseWristY + (mouseX * 0.3)) * weight;
+                            rightHand.rotation.x = 0;
+                            rightHand.rotation.z = waveFlap * weight; // Bilekten sallama desteği
                         }
                     }
 
