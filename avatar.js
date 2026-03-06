@@ -81,7 +81,7 @@ if (container) {
 
     const clock = new THREE.Clock();
     let blinkTimer = 0;
-    let waveTimer = 5.0;
+    let waveTimer = 10.0;
     let isWaving = false;
     let waveStartTime = 0;
 
@@ -140,7 +140,7 @@ if (container) {
 
                     if (waveProgress > 3.0) {
                         isWaving = false;
-                        waveTimer = 5.0;
+                        waveTimer = 10.0;
                         rightUpperArm.rotation.z = idleRightZ;
                         rightUpperArm.rotation.x = 0;
                         rightUpperArm.rotation.y = 0;
@@ -159,24 +159,23 @@ if (container) {
 
                         const waveFlap = Math.sin(elapsed * 10.0) * 0.15;
 
-                        // Üst kol
-                        rightUpperArm.rotation.z = idleRightZ * (1 - weight) + (-0.7) * weight;
-                        rightUpperArm.rotation.x = -0.3 * weight;
+                        // Üst kol (Omuz): Kolu yukarı ve biraz öne kaldır
+                        rightUpperArm.rotation.z = idleRightZ * (1 - weight) + (-0.8) * weight;
+                        rightUpperArm.rotation.x = -0.4 * weight;
                         rightUpperArm.rotation.y = 0;
 
-                        // Alt kol (dirsek)
+                        // Alt kol (Dirsek): Kolu bükerek eli kafa hizasına getir
                         if (rightLowerArm) {
-                            rightLowerArm.rotation.z = -1.2 * weight;
-                            rightLowerArm.rotation.x = waveFlap * weight;
-                            rightLowerArm.rotation.y = -0.4 * weight;
+                            rightLowerArm.rotation.z = -1.3 * weight; // Dirsek bükümü
+                            rightLowerArm.rotation.x = 0;
+                            rightLowerArm.rotation.y = 0;
                         }
 
-                        // El: avuç öne baksın (x negatif = parmaklar öne döner)
-                        // waveFlap ile bilek sallama eklendi
+                        // El (Bilek): Avuç içi öne baksın ve sallansın
                         if (rightHand) {
-                            rightHand.rotation.x = -0.5 * weight;           // ← avuç öne döner
-                            rightHand.rotation.z = (0.3 + waveFlap) * weight; // ← hafif tilt + sallama
-                            rightHand.rotation.y = 0;
+                            rightHand.rotation.x = -0.6 * weight; // Avuç içini kameraya çevir
+                            rightHand.rotation.z = (0.5 + waveFlap) * weight; // Sağa-sola sallama hareketi
+                            rightHand.rotation.y = 0.2 * weight; // Hafif doğal bir bilek açısı
                         }
                     }
 
