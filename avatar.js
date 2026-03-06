@@ -3,27 +3,25 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { VRMLoaderPlugin, VRMUtils } from '@pixiv/three-vrm';
 
-// Scene, Camera, Renderer setup
 const scene = new THREE.Scene();
 const container = document.getElementById('vrm-container');
 
 if (container) {
     const camera = new THREE.PerspectiveCamera(30.0, container.clientWidth / container.clientHeight, 0.1, 100.0);
-    // Adjusted camera position to frame the avatar more symmetrically
-    camera.position.set(0.0, 1.0, 1.45);
+    // Move camera back (1.45 -> 1.8) and slightly up (1.0 -> 1.05) to see the hand when it's raised
+    camera.position.set(0.0, 1.05, 1.8);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setClearColor(0x000000, 0); // Transparent background
-    renderer.outputColorSpace = THREE.SRGBColorSpace; // Fix textures/colors
+    renderer.setClearColor(0x000000, 0);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.domElement.style.outline = "none";
     container.appendChild(renderer.domElement);
 
-    // Orbit controls
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.screenSpacePanning = true;
-    controls.target.set(0.0, 1.0, 0.0);
+    controls.target.set(0.0, 1.05, 0.0);
     controls.enableZoom = false;
     controls.enablePan = false;
     controls.minAzimuthAngle = -Math.PI / 4;
@@ -32,113 +30,75 @@ if (container) {
     controls.maxPolarAngle = Math.PI / 1.8;
     controls.update();
 
-    // Lighting (Match reference main.js for realistic shading)
     const directionalLight = new THREE.DirectionalLight(0xffffff, 2.0);
     directionalLight.position.set(1.0, 1.0, 1.0).normalize();
     scene.add(directionalLight);
-
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
-    scene.add(ambientLight);
+    scene.add(new THREE.AmbientLight(0xffffff, 1.0));
 
     let currentVrm = undefined;
     const loader = new GLTFLoader();
-
-    // Register VRM loader plugin
-    loader.register((parser) => {
-        return new VRMLoaderPlugin(parser);
-    });
+    loader.register((parser) => new VRMLoaderPlugin(parser));
 
     loader.load(
-        'models/character.vrm', // the path to your character model
+        'models/character.vrm',
         (gltf) => {
             const vrm = gltf.userData.vrm;
-
-            // Remove unused data from VRM to optimize
             VRMUtils.removeUnnecessaryVertices(gltf.scene);
             VRMUtils.removeUnnecessaryJoints(gltf.scene);
             scene.add(vrm.scene);
-
             currentVrm = vrm;
-            vrm.scene.rotation.y = 0; // Fix rotation to face forward natively
+            vrm.scene.rotation.y = 0;
 
-            // T-pose to idle pose fix for anime VRMs (relaxing arms downwards)
-            // Values matched exactly with reference main.js
             const leftUpperArm = vrm.humanoid.getNormalizedBoneNode('leftUpperArm');
             const rightUpperArm = vrm.humanoid.getNormalizedBoneNode('rightUpperArm');
             if (leftUpperArm) leftUpperArm.rotation.z = -1.2;
             if (rightUpperArm) rightUpperArm.rotation.z = 1.2;
 
-            // Bring shoulders slightly inward
             const leftShoulder = vrm.humanoid.getNormalizedBoneNode('leftShoulder');
             const rightShoulder = vrm.humanoid.getNormalizedBoneNode('rightShoulder');
             if (leftShoulder) leftShoulder.rotation.z = -0.1;
             if (rightShoulder) rightShoulder.rotation.z = 0.1;
 
-            // Disable frustrating culling
-            vrm.scene.traverse((obj) => {
-                obj.frustumCulled = false;
-            });
-
-            // lookAt özelliğini yumuşak takip için manuel kontrol edebiliriz
+            vrm.scene.traverse((obj) => { obj.frustumCulled = false; });
             if (vrm.lookAt) vrm.lookAt.autoUpdate = false;
 
-            // Welcome blink animation
             setTimeout(() => {
                 vrm.expressionManager.setValue('blink', 1.0);
-                setTimeout(() => {
-                    vrm.expressionManager.setValue('blink', 0.0);
-                }, 150);
+                setTimeout(() => { vrm.expressionManager.setValue('blink', 0.0); }, 150);
             }, 1000);
         },
-        (progress) => {
-            // Optional: loading progress
-        },
+        undefined,
         (error) => console.error(error)
     );
 
-    // Track mouse to make the character look at cursor smoothly
-    let mouseX = 0;
-    let mouseY = 0;
+    let mouseX = 0, mouseY = 0;
     let eyeCurrent = { yaw: 0, pitch: 0 };
 
     window.addEventListener('mousemove', (event) => {
         const rect = container.getBoundingClientRect();
-        // Mouse coordinates relative to the VRM container center
-        mouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-        mouseY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-        // Clamp values
-        mouseX = Math.max(-1.5, Math.min(1.5, mouseX));
-        mouseY = Math.max(-1.5, Math.min(1.5, mouseY));
+        mouseX = Math.max(-1.5, Math.min(1.5, ((event.clientX - rect.left) / rect.width) * 2 - 1));
+        mouseY = Math.max(-1.5, Math.min(1.5, -((event.clientY - rect.top) / rect.height) * 2 + 1));
     });
 
     const clock = new THREE.Clock();
     let blinkTimer = 0;
-
-    // Wave / Smile Animation State
     let waveTimer = 10.0;
     let isWaving = false;
     let waveStartTime = 0;
 
     function animate() {
         requestAnimationFrame(animate);
-
         const deltaTime = clock.getDelta();
         const elapsed = clock.getElapsedTime();
 
         if (currentVrm) {
             currentVrm.update(deltaTime);
 
+            // Look At
             if (currentVrm.lookAt) {
-                // Determine target yaw and pitch based on mouse position
-                const eyeTargetYaw = -mouseX * 0.4; // Reverse direction and limit multiplier
-                const eyeTargetPitch = mouseY * 0.3;
-
-                // Smooth eye movement
                 const es = Math.min(1.5 * deltaTime, 1.0);
-                eyeCurrent.yaw += (eyeTargetYaw - eyeCurrent.yaw) * es;
-                eyeCurrent.pitch += (eyeTargetPitch - eyeCurrent.pitch) * es;
-
+                eyeCurrent.yaw += (-mouseX * 0.4 - eyeCurrent.yaw) * es;
+                eyeCurrent.pitch += (mouseY * 0.3 - eyeCurrent.pitch) * es;
                 try {
                     if (typeof currentVrm.lookAt.yaw !== 'undefined') {
                         currentVrm.lookAt.yaw = eyeCurrent.yaw;
@@ -149,10 +109,10 @@ if (container) {
                 } catch (e) { }
             }
 
-            // Simple Idle Breathing Animation & Waving (matching main.js)
             if (currentVrm.humanoid) {
                 const breathNorm = (Math.sin(elapsed * 0.35) + 1) / 2;
 
+                // Breathing
                 const leftShoulder = currentVrm.humanoid.getNormalizedBoneNode('leftShoulder');
                 const rightShoulder = currentVrm.humanoid.getNormalizedBoneNode('rightShoulder');
                 if (leftShoulder) leftShoulder.rotation.x = -breathNorm * 0.12;
@@ -161,84 +121,82 @@ if (container) {
                 const leftUpperArm = currentVrm.humanoid.getNormalizedBoneNode('leftUpperArm');
                 const rightUpperArm = currentVrm.humanoid.getNormalizedBoneNode('rightUpperArm');
                 if (leftUpperArm) leftUpperArm.rotation.z = -1.2 - breathNorm * 0.06;
-                const defaultRightZ = 1.2 + breathNorm * 0.06;
+
+                const idleRightZ = 1.2 + breathNorm * 0.06;
 
                 const neck = currentVrm.humanoid.getNormalizedBoneNode('neck');
                 if (neck) neck.rotation.x = -breathNorm * 0.03;
 
-                // --- Wave Logic ---
+                // Wave timer
                 if (!isWaving) {
                     waveTimer -= deltaTime;
-                    if (waveTimer <= 0) {
-                        isWaving = true;
-                        waveStartTime = elapsed;
-                    }
+                    if (waveTimer <= 0) { isWaving = true; waveStartTime = elapsed; }
                 }
 
                 const rightLowerArm = currentVrm.humanoid.getNormalizedBoneNode('rightLowerArm');
                 const rightHand = currentVrm.humanoid.getNormalizedBoneNode('rightHand');
 
-                if (isWaving && rightUpperArm && rightLowerArm) {
+                if (isWaving && rightUpperArm) {
                     const waveProgress = elapsed - waveStartTime;
 
                     if (waveProgress > 3.0) {
-                        // End of wave
+                        // Idle'a dön
                         isWaving = false;
                         waveTimer = 10.0;
-                        rightUpperArm.rotation.z = defaultRightZ;
+
+                        rightUpperArm.rotation.z = idleRightZ;
                         rightUpperArm.rotation.x = 0;
                         rightUpperArm.rotation.y = 0;
-                        rightLowerArm.rotation.z = 0;
-                        rightLowerArm.rotation.x = 0;
-                        if (rightHand) rightHand.rotation.z = 0;
-
+                        if (rightLowerArm) { rightLowerArm.rotation.x = 0; rightLowerArm.rotation.y = 0; rightLowerArm.rotation.z = 0; }
+                        if (rightHand) { rightHand.rotation.x = 0; rightHand.rotation.y = 0; rightHand.rotation.z = 0; }
                         currentVrm.expressionManager.setValue('happy', 0.0);
                         currentVrm.expressionManager.setValue('joy', 0.0);
-                    } else {
-                        // Transition weights for smooth start/end
-                        const transitionIn = Math.min(waveProgress * 3.0, 1.0);
-                        const transitionOut = Math.max(0, Math.min((3.0 - waveProgress) * 3.0, 1.0));
-                        const weight = Math.min(transitionIn, transitionOut);
 
-                        // Smile bright
+                    } else {
+                        const transIn = Math.min(waveProgress * 3.0, 1.0);
+                        const transOut = Math.max(0, Math.min((3.0 - waveProgress) * 3.0, 1.0));
+                        const weight = Math.min(transIn, transOut);
+
                         currentVrm.expressionManager.setValue('happy', Math.min(1.0, weight * 1.5));
                         currentVrm.expressionManager.setValue('joy', Math.min(1.0, weight * 1.5));
 
-                        // Wave arm pose - Natural "hand by the head" position
-                        const targetUpperX = -0.5; // Lift forward
-                        const targetUpperZ = 0.6;  // Lift side slightly
+                        const waveFlap = Math.sin(elapsed * 10.0) * 0.15;
 
-                        rightUpperArm.rotation.x = targetUpperX * weight;
-                        rightUpperArm.rotation.z = (defaultRightZ * (1.0 - weight)) + (targetUpperZ * weight);
-                        rightUpperArm.rotation.y = -0.2 * weight;
+                        // Üst kol: Daha kontrollü bir açı (-1.0 -> -0.7) ki yanlardan taşmasın
+                        rightUpperArm.rotation.z = idleRightZ * (1 - weight) + (-0.7) * weight;
+                        rightUpperArm.rotation.x = -0.3 * weight; // Hafifçe öne al ki derinlik kazansın
+                        rightUpperArm.rotation.y = 0;
 
+                        // Alt kol (dirsek bükümü): 
+                        // Eli tam kafa hizasına getirecek şekilde ayarlandı
                         if (rightLowerArm) {
-                            // Bend elbow significantly to bring hand up
-                            const targetLowerX = -1.6;
-                            const waveMotion = Math.sin(elapsed * 12.0) * 0.4; // The actual side-to-side waving
+                            rightLowerArm.rotation.z = -1.2 * weight;
+                            rightLowerArm.rotation.x = waveFlap * weight;
+                            rightLowerArm.rotation.y = -0.4 * weight; // Eli biraz daha içe bakacak şekilde çevir
+                        }
 
-                            rightLowerArm.rotation.x = targetLowerX * weight;
-                            rightLowerArm.rotation.y = waveMotion * weight; // Wave from the elbow/forearm
+                        // El: Bilek sallama
+                        if (rightHand) {
+                            rightHand.rotation.z = (0.5 + waveFlap) * weight;
+                            rightHand.rotation.x = 0;
+                            rightHand.rotation.y = 0;
                         }
                     }
+
                 } else {
-                    // Normal idle
-                    if (rightUpperArm) {
-                        rightUpperArm.rotation.z = defaultRightZ;
-                        rightUpperArm.rotation.x = 0;
-                        rightUpperArm.rotation.y = 0;
-                    }
+                    // Idle
+                    if (rightUpperArm) { rightUpperArm.rotation.z = idleRightZ; rightUpperArm.rotation.x = 0; rightUpperArm.rotation.y = 0; }
+                    if (rightLowerArm) { rightLowerArm.rotation.x = 0; rightLowerArm.rotation.y = 0; rightLowerArm.rotation.z = 0; }
+                    if (rightHand) { rightHand.rotation.x = 0; rightHand.rotation.y = 0; rightHand.rotation.z = 0; }
                 }
             }
 
-            // Random Blinking
+            // Blink
             blinkTimer -= deltaTime;
             if (blinkTimer < 0) {
                 currentVrm.expressionManager.setValue('blink', 1.0);
-                setTimeout(() => {
-                    if (currentVrm) currentVrm.expressionManager.setValue('blink', 0.0);
-                }, 150);
-                blinkTimer = 2 + Math.random() * 4; // next blink in 2-6 seconds
+                setTimeout(() => { if (currentVrm) currentVrm.expressionManager.setValue('blink', 0.0); }, 150);
+                blinkTimer = 2 + Math.random() * 4;
             }
         }
 
@@ -247,7 +205,6 @@ if (container) {
 
     animate();
 
-    // Handle Window Resize
     window.addEventListener('resize', () => {
         camera.aspect = container.clientWidth / container.clientHeight;
         camera.updateProjectionMatrix();
