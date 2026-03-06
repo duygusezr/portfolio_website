@@ -204,21 +204,25 @@ if (container) {
                         currentVrm.expressionManager.setValue('happy', Math.min(1.0, weight * 1.5));
                         currentVrm.expressionManager.setValue('joy', Math.min(1.0, weight * 1.5));
 
-                        // Wave arm pose
-                        const targetUpperZ = -1.2;     // Raise arm up
-                        const targetUpperX = -0.5;     // Bring slightly forward
-                        const targetUpperY = -0.2;     // Rotate hand outward slightly
+                        // Wave arm pose - using ONLY Z axis to avoid twisting the mesh (Gimbal Lock)
+                        // defaultRightZ is ~1.2 (down). 0.0 is horizontal. 
+                        const sineWave = Math.sin(elapsed * 12.0) * 0.3;
+                        const targetUpperZ = 0.3 + sineWave; // Raise arm near horizontal and flap
 
                         rightUpperArm.rotation.z = defaultRightZ * (1.0 - weight) + targetUpperZ * weight;
-                        rightUpperArm.rotation.x = targetUpperX * weight;
-                        rightUpperArm.rotation.y = targetUpperY * weight;
+                        rightUpperArm.rotation.x = 0;
+                        rightUpperArm.rotation.y = 0;
 
-                        // Waving motion (Sine wave)
-                        const sineWave = Math.sin(elapsed * 15.0) * 0.6; // Rapid wave
-                        rightLowerArm.rotation.z = (1.5 + sineWave) * weight; // Bend elbow to 90deg and wave
-                        rightLowerArm.rotation.x = -0.2 * weight;
-
-                        if (rightHand) rightHand.rotation.z = sineWave * 0.5 * weight; // Hand secondary wave
+                        if (rightLowerArm) {
+                            rightLowerArm.rotation.z = 0;
+                            rightLowerArm.rotation.x = 0;
+                            rightLowerArm.rotation.y = 0;
+                        }
+                        if (rightHand) {
+                            rightHand.rotation.z = 0;
+                            rightHand.rotation.x = 0;
+                            rightHand.rotation.y = 0;
+                        }
                     }
                 } else {
                     // Normal idle
