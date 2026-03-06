@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Sayfa Bulunamadı | Duygu Sezer</title>
+    <meta name="description" content="404 Page Not Found">
+    <link rel="stylesheet" href="/style.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Space+Grotesk:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        .error-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 10%;
+        }
+
+        .error-content h1 {
+            font-size: 8rem;
+            margin-bottom: 0;
+            line-height: 1;
+        }
+
+        .error-content h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+
+        .error-content p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .error-box {
+            padding: 60px;
+            max-width: 800px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Arka plan animasyonları -->
+    <div class="background-effects">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <!-- Sadece Logo olan basit bir Navbar -->
+    <nav class="navbar" style="justify-content: center;">
+        <div class="logo"><a href="/" style="color: inherit; text-decoration: none;">Duygu<span
+                    class="gradient-text">.</span></a></div>
+    </nav>
+
+    <main>
+        <section class="error-section">
+            <div class="error-content error-box glass-panel reveal-up active">
+                <h1 class="gradient-text">404</h1>
+                <h2>Sayfa Bulunamadı <span style="opacity: 0.5;">/</span> Page Not Found</h2>
+                <p>
+                    Görünüşe göre yapay zeka ajanlarımız bile aradığınız sayfayı bulamadı. Ya da bu seviyeyi (level)
+                    henüz tasarlamadım! 🎮🤖 <br><br>
+                    <span style="font-size: 0.95rem; opacity: 0.8;">Looks like our AI agents couldn't find the page
+                        you're looking for. Or maybe I haven't designed this level yet!</span>
+                </p>
+                <div class="hero-buttons" style="margin-bottom: 0;">
+                    <a href="/" class="btn primary-btn"><i class="fa-solid fa-house"></i> Ana Sayfaya Dön (Home)</a>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+
+</html>
