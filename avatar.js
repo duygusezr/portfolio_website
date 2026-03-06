@@ -7,12 +7,17 @@ const scene = new THREE.Scene();
 const container = document.getElementById('vrm-container');
 
 if (container) {
-    const camera = new THREE.PerspectiveCamera(30.0, container.clientWidth / container.clientHeight, 0.1, 100.0);
-    camera.position.set(0.0, 1.05, 1.8);
+    // Mobil için kamera ve görünüm ayarları
+    const isMobile = window.innerWidth <= 768;
+    const initialFov = isMobile ? 40.0 : 30.0; // Mobil ekranında biraz daha geniş açı
+    const initialZ = isMobile ? 2.2 : 1.8;      // Mobilde biraz daha geriden bak ki sığsın
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    const camera = new THREE.PerspectiveCamera(initialFov, (container.clientWidth || window.innerWidth) / (container.clientHeight || 500), 0.1, 100.0);
+    camera.position.set(0.0, 1.05, initialZ);
+
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
+    renderer.setSize(container.clientWidth || window.innerWidth, container.clientHeight || 500);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Performans için 2 ile sınırla
     renderer.setClearColor(0x000000, 0);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.domElement.style.outline = "none";
