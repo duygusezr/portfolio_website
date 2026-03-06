@@ -16,6 +16,7 @@ if (container) {
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setClearColor(0x000000, 0); // Transparent background
+    renderer.outputColorSpace = THREE.SRGBColorSpace; // Fix textures/colors
     renderer.domElement.style.outline = "none";
     container.appendChild(renderer.domElement);
 
@@ -59,14 +60,14 @@ if (container) {
             VRMUtils.removeUnnecessaryVertices(gltf.scene);
             VRMUtils.removeUnnecessaryJoints(gltf.scene);
 
-            vrm.scene.rotation.y = Math.PI; // Rotate to face the camera
+            vrm.scene.rotation.y = 0; // Fixed rotation to face forward natively
             scene.add(vrm.scene);
 
             currentVrm = vrm;
 
-            // Simple "t-pose to idle pose" fix for anime VRMs
-            vrm.humanoid.getNormalizedBoneNode('leftUpperArm').rotation.z = Math.PI / 2.5;
-            vrm.humanoid.getNormalizedBoneNode('rightUpperArm').rotation.z = -Math.PI / 2.5;
+            // Simple "t-pose to idle pose" fix for anime VRMs (relaxing arms downwards)
+            vrm.humanoid.getNormalizedBoneNode('leftUpperArm').rotation.z = 1.2;
+            vrm.humanoid.getNormalizedBoneNode('rightUpperArm').rotation.z = -1.2;
 
             // Disable frustrating culling
             vrm.scene.traverse((obj) => {
