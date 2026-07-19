@@ -486,6 +486,35 @@ h3 {
     transform: scale(1.05);
 }
 
+.project-image-slider {
+    background-color: #14141c;
+}
+
+.project-image-slider .slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    object-fit: contain;
+    animation: elaSlideFade 8s infinite;
+}
+
+.project-image-slider .slide-1 {
+    animation-delay: 0s;
+}
+
+.project-image-slider .slide-2 {
+    animation-delay: 4s;
+}
+
+@keyframes elaSlideFade {
+    0% { opacity: 0; }
+    5% { opacity: 1; }
+    45% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 0; }
+}
+
 .project-info {
     padding: 30px;
     display: flex;
