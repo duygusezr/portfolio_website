@@ -28,6 +28,7 @@
             <li><a href="#about" class="lang" data-key="nav_about">Hakkımda</a></li>
             <li><a href="#projects-ai" class="lang" data-key="nav_ai">Yapay Zeka</a></li>
             <li><a href="#projects-game" class="lang" data-key="nav_game">Oyun & Simülasyon</a></li>
+            <li><a href="#projects-modeling" class="lang" data-key="nav_modeling">Modelleme</a></li>
             <li><a href="#skills" class="lang" data-key="nav_skills">Yetenekler</a></li>
             <li><a href="#contact" class="lang" data-key="nav_contact">İletişim</a></li>
         </ul>
@@ -42,6 +43,7 @@
             <li><a href="#about" class="lang nav-link-mobile" data-key="nav_about">Hakkımda</a></li>
             <li><a href="#projects-ai" class="lang nav-link-mobile" data-key="nav_ai">Yapay Zeka</a></li>
             <li><a href="#projects-game" class="lang nav-link-mobile" data-key="nav_game">Oyun & Simülasyon</a></li>
+            <li><a href="#projects-modeling" class="lang nav-link-mobile" data-key="nav_modeling">Modelleme</a></li>
             <li><a href="#skills" class="lang nav-link-mobile" data-key="nav_skills">Yetenekler</a></li>
             <li><a href="#contact" class="lang nav-link-mobile" data-key="nav_contact">İletişim</a></li>
         </ul>
@@ -91,6 +93,7 @@
                 <button class="filter-btn active lang" data-filter="all" data-key="filter_all">Tümü</button>
                 <button class="filter-btn lang" data-filter="ai" data-key="title_ai">Yapay Zeka & NLP</button>
                 <button class="filter-btn lang" data-filter="game" data-key="title_game">Oyun & Simülasyon</button>
+                <button class="filter-btn lang" data-filter="modeling" data-key="title_modeling">Modelleme</button>
             </div>
 
             <div class="grid-container" id="project-container">
@@ -118,12 +121,17 @@
                         <div class="tags">
                             <span>LLM</span><span>WebSocket</span><span>3D Avatar</span><span>NLP</span>
                         </div>
+                        <div class="project-links">
+                            <a href="https://github.com/duygusezr/Bus-Ticket-Booking-Agent"
+                                target="_blank"><i class="fa-brands fa-github"></i> <span class="lang"
+                                    data-key="link_source">Kaynak Kodu</span></a>
+                        </div>
                     </div>
                 </article>
 
                 <!-- AI Project 2 -->
                 <article class="project-card glass-panel filter-item ai">
-                    <div class="project-image">
+                    <div class="project-image fit-contain">
                         <img src="assets/rag.png" alt="RAG Projesi">
                     </div>
                     <div class="project-info">
@@ -145,6 +153,8 @@
                 <!-- AI Project 3 -->
                 <article class="project-card glass-panel filter-item ai">
                     <div class="project-image">
+                        <span class="project-badge"><i class="fa-solid fa-trophy"></i> <span class="lang"
+                                data-key="badge_finalist">Finalist</span></span>
                         <img src="assets/teknofest_new.png" alt="Teknofest Otonom Asistan">
                     </div>
                     <div class="project-info">
@@ -195,7 +205,7 @@
                         <img src="assets/zombi.png" alt="Zombi FPS">
                     </div>
                     <div class="project-info">
-                        <h3 class="lang" data-key="p_zombi_title">Zombi FPS - UE5 Survival Game</h3>
+                        <h3 class="lang" data-key="p_zombi_title">Zombi FPS - UE5 Hayatta Kalma Oyunu</h3>
                         <p class="lang" data-key="p_zombi_desc">Unreal Engine 5 ve C++ kullanılarak geliştirilen hayatta
                             kalma odaklı FPS oyunu. AI Behavior Trees ve Blackboards mantığı kullanılarak akıllı düşman
                             navigasyonu, saldırı mekanikleri kurgulanmış ve oyun motoru içinde optimize edilmiştir.</p>
@@ -230,6 +240,71 @@
                             <a href="https://duygusezrr.itch.io/brewing-bad" target="_blank"><i
                                     class="fa-brands fa-itch-io"></i> <span class="lang"
                                     data-key="link_play">Oyna</span></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Category 3 Header -->
+                <h3 class="category-header reveal-up filter-item modeling spacer-top"><span class="lang"
+                        data-key="title_modeling">Modelleme</span> <span class="gradient-text">Projeleri</span></h3>
+
+                <!-- Modeling Project 1 -->
+                <article class="project-card glass-panel filter-item modeling">
+                    <div class="project-image tea-showcase">
+                        <video class="tea-media active" data-tea="video" poster="assets/golden-hour-tea-pour.png"
+                            muted loop playsinline preload="none" controls>
+                            <source src="assets/golden-hour-tea.mp4" type="video/mp4">
+                        </video>
+                        <img class="tea-media" data-tea="render" src="assets/golden-hour-tea-pour.png"
+                            alt="Golden Hour Tea - Final Render">
+                        <img class="tea-media" data-tea="clay" src="assets/golden-hour-tea-clay.png"
+                            alt="Golden Hour Tea - Modelleme (Clay Render)">
+                        <div class="tea-tabs">
+                            <button type="button" class="tea-tab active" data-tea-target="video"
+                                title="Animasyon"><i class="fa-solid fa-play"></i></button>
+                            <button type="button" class="tea-tab" data-tea-target="render"
+                                title="Final Render"><i class="fa-solid fa-image"></i></button>
+                            <button type="button" class="tea-tab" data-tea-target="clay"
+                                title="Modelleme"><i class="fa-solid fa-cube"></i></button>
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3 class="lang" data-key="p_tea_title">Golden Hour Tea — İlk Projem</h3>
+                        <p class="lang" data-key="p_tea_desc">Blender'da uçtan uca kendi başıma gerçekleştirdiğim ilk
+                            3D projem: geleneksel bir çay bardağı ve tabağının modellenmesinden karmaşık sıvı ve duman
+                            simülasyonlarına, son olarak da özgün ses tasarımına kadar her aşamayı tek başıma
+                            tamamladım. Cam kırılmaları, ışık yolları ve akışkan dinamiklerinin yönetilmesiyle,
+                            buharın kırılgan cam malzemenin hem içinde hem dışında gerçekçi davranması sağlandı.</p>
+                        <div class="tags">
+                            <span>Blender</span><span class="lang" data-key="tag_fluid_sim">Akışkan
+                                Simülasyonu</span><span class="lang" data-key="tag_3d_modeling">3D Modelleme</span><span
+                                class="lang" data-key="tag_sound_design">Ses Tasarımı</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="https://www.artstation.com/artwork/a0v8Q0" target="_blank"><i
+                                    class="fa-brands fa-artstation"></i> <span class="lang"
+                                    data-key="link_artstation">ArtStation'da Gör</span></a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Modeling Project 2 -->
+                <article class="project-card glass-panel filter-item modeling">
+                    <div class="project-image fit-contain">
+                        <img src="assets/stylized-mushroom.png" alt="Stylized Mushroom - Blender 3D Render">
+                    </div>
+                    <div class="project-info">
+                        <h3 class="lang" data-key="p_mushroom_title">Stilize Mantar</h3>
+                        <p class="lang" data-key="p_mushroom_desc">Tamamen Blender'da oluşturulan stilize bir mantar:
+                            modelleme, UV açma (unwrap), doku boyama, ışıklandırma ve render aşamalarının tümünü
+                            kapsıyor. Doku, Blender'ın Texture Paint iş akışı kullanılarak elle boyandı; oyun
+                            ortamları ve gerçek zamanlı uygulamalara uygun, sade ve göz alıcı bir stilize asset
+                            oluşturmaya odaklanıldı. Bu proje, stilize asset üretim sürecimi ve doku boyama
+                            becerilerimi geliştirmek amacıyla kişisel bir çalışma olarak hazırlandı.</p>
+                        <div class="tags">
+                            <span>Blender</span><span class="lang" data-key="tag_texture_painting">Doku
+                                Boyama</span><span class="lang" data-key="tag_uv_unwrapping">UV Açma</span><span
+                                class="lang" data-key="tag_stylized_asset">Stilize Model</span>
                         </div>
                     </div>
                 </article>

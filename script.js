@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
             nav_about: "Hakkımda",
             nav_ai: "Yapay Zeka",
             nav_game: "Oyun & Simülasyon",
+            nav_modeling: "Modelleme",
             nav_skills: "Yetenekler",
             nav_contact: "İletişim",
             hero_hi: "",
@@ -16,9 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
             btn_contact: "İletişime Geç",
             title_ai: "Yapay Zeka & NLP",
             title_game: "Oyun & Simülasyon",
+            title_modeling: "Modelleme",
             filter_all: "Tümü",
             filter_ai: "Yapay Zeka & NLP",
             filter_game: "Oyun & Simülasyon",
+            filter_modeling: "Modelleme",
+            badge_finalist: "Finalist",
             p_ela_title: "Gerçek Zamanlı 3D Avatar Destekli Otobüs Bileti Rezervasyon Asistanı",
             p_ela_desc: "Sesli ve yazılı konuşmayı, WebSocket streaming altyapısı ve VRM tabanlı 3D avatar animasyonlarını gerçek zamanlı birleştiren yapay zekâ rezervasyon sistemi. GPT-4.1 Mini ile doğal dil anlama, ElevenLabs Scribe v2 tabanlı yüksek doğrulukta konuşma tanıma ve Microsoft Edge-TTS ile doğal seslendirme sağlanıyor. Web Audio API tabanlı lip-sync, göz kırpma ve idle animasyonlarla avatar konuşmayla senkronize çalışıyor; Absolute System Truth mekanizması ile rezervasyon verilerinde hallucination riski en aza indiriliyor.",
             p_rag_title: "Doğal Dil Tabanlı Doküman Analiz Sistemi (RAG)",
@@ -29,11 +33,22 @@ document.addEventListener('DOMContentLoaded', () => {
             p_tekno_desc: "Telekom sektörü için LLM ve Agentic Framework tabanlı, uçtan uca çalışabilen otonom asistan. Dinamik araç kullanımı (Dynamic Tool Use) ve gelişmiş durum yönetimi (State Management) ile karmaşık müşteri talepleri uçtan uca yönetilir.",
             p_vr_title: "VR Deprem Simülasyonu",
             p_vr_desc: "Unity ve Meta Quest SDK kullanılarak geliştirilen, etkileşimli eğitim simülasyonu. Spatial audio (uzamsal ses) ve fizik tabanlı nesne etkileşimleri ile bağımsız VR gözlükleri için gerçekçi ve optimize edilmiş bir deneyim sağlar.",
-            p_zombi_title: "Zombi FPS - UE5 Survival Game",
+            p_zombi_title: "Zombi FPS - UE5 Hayatta Kalma Oyunu",
             p_zombi_desc: "Unreal Engine 5 ve C++ kullanılarak geliştirilen hayatta kalma odaklı FPS oyunu. AI Behavior Trees ve Blackboards mantığı kullanılarak akıllı düşman navigasyonu, saldırı mekanikleri kurgulanmış ve oyun motoru içinde optimize edilmiştir.",
             p_brewing_title: "Brewing Bad – Ekonomik Simülasyon",
             p_brewing_desc: "Unity ve C# ile geliştirilen simülasyon oyunu. Karmaşık sipariş yönetimi, algoritmik ekonomik denge sistemleri, modüler UI bileşenleri ve durum odaklı (state-driven) oyun mantığı ile mükemmel bir denge kuruldu.",
+            p_tea_title: "Golden Hour Tea — İlk Projem",
+            p_tea_desc: "Blender'da uçtan uca kendi başıma gerçekleştirdiğim ilk 3D projem: geleneksel bir çay bardağı ve tabağının modellenmesinden karmaşık sıvı ve duman simülasyonlarına, son olarak da özgün ses tasarımına kadar her aşamayı tek başıma tamamladım. Cam kırılmaları, ışık yolları ve akışkan dinamiklerinin yönetilmesiyle, buharın kırılgan cam malzemenin hem içinde hem dışında gerçekçi davranması sağlandı.",
+            p_mushroom_title: "Stilize Mantar",
+            p_mushroom_desc: "Tamamen Blender'da oluşturulan stilize bir mantar: modelleme, UV açma (unwrap), doku boyama, ışıklandırma ve render aşamalarının tümünü kapsıyor. Doku, Blender'ın Texture Paint iş akışı kullanılarak elle boyandı; oyun ortamları ve gerçek zamanlı uygulamalara uygun, sade ve göz alıcı bir stilize asset oluşturmaya odaklanıldı. Bu proje, stilize asset üretim sürecimi ve doku boyama becerilerimi geliştirmek amacıyla kişisel bir çalışma olarak hazırlandı.",
+            tag_fluid_sim: "Akışkan Simülasyonu",
+            tag_3d_modeling: "3D Modelleme",
+            tag_sound_design: "Ses Tasarımı",
+            tag_texture_painting: "Doku Boyama",
+            tag_uv_unwrapping: "UV Açma",
+            tag_stylized_asset: "Stilize Model",
             link_play: "Oyna",
+            link_artstation: "ArtStation'da Gör",
             skills_title: "Teknik",
             skills_accent: "Yetenekler",
             s_lang_title: "Programlama Dilleri",
@@ -51,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
             nav_about: "About",
             nav_ai: "AI & NLP",
             nav_game: "Game & Sim",
+            nav_modeling: "3D Modeling",
             nav_skills: "Skills",
             nav_contact: "Contact",
             hero_hi: "",
@@ -61,9 +77,12 @@ document.addEventListener('DOMContentLoaded', () => {
             btn_contact: "Contact Me",
             title_ai: "AI & NLP",
             title_game: "Game & Simulation",
+            title_modeling: "3D Modeling",
             filter_all: "All",
             filter_ai: "AI & NLP",
             filter_game: "Game & Simulation",
+            filter_modeling: "3D Modeling",
+            badge_finalist: "Finalist",
             p_ela_title: "Real-Time 3D Avatar-Powered Bus Ticket Reservation Assistant",
             p_ela_desc: "An AI reservation system uniting voice and text conversation, WebSocket streaming infrastructure, and VRM-based 3D avatar animations in real time. Natural language understanding is powered by GPT-4.1 Mini, high-accuracy speech recognition by ElevenLabs Scribe v2, and natural voice output by Microsoft Edge-TTS. Web Audio API-driven lip-sync, blinking, and idle animations keep the avatar in sync with speech, while an Absolute System Truth mechanism minimizes hallucination risk in reservation data.",
             p_rag_title: "Offline Natural Language Based Document Analyzer (RAG)",
@@ -78,7 +97,18 @@ document.addEventListener('DOMContentLoaded', () => {
             p_zombi_desc: "Survival FPS game developed in Unreal Engine 5 with C++. Built intelligent enemy navigation and attack mechanics natively using AI Behavior Trees and Blackboards.",
             p_brewing_title: "Brewing Bad – Economic Simulation",
             p_brewing_desc: "Simulation game built with Unity and C#. Excellent balance established through complex order management, modular UI components, and state-driven game logic.",
+            p_tea_title: "Golden Hour Tea — My First Project",
+            p_tea_desc: "My first end-to-end 3D project, built entirely solo in Blender: from modeling a traditional Turkish tea glass and saucer, through complex fluid and smoke simulations, to custom sound design. Managing glass refractions, light paths, and fluid dynamics ensured the steam behaved realistically both inside and outside the refractive glass material.",
+            p_mushroom_title: "Stylized Mushroom",
+            p_mushroom_desc: "A stylized mushroom created entirely in Blender, including modeling, UV unwrapping, texture painting, lighting, and rendering. The texture was hand-painted using Blender's Texture Paint workflow, with a focus on creating a clean, appealing stylized asset suitable for game environments and real-time applications. This project was created as a personal study to improve my stylized asset creation workflow and texture painting skills.",
+            tag_fluid_sim: "Fluid Simulation",
+            tag_3d_modeling: "3D Modeling",
+            tag_sound_design: "Sound Design",
+            tag_texture_painting: "Texture Painting",
+            tag_uv_unwrapping: "UV Unwrapping",
+            tag_stylized_asset: "Stylized Asset",
             link_play: "Play",
+            link_artstation: "View on ArtStation",
             skills_title: "Technical",
             skills_accent: "Skills",
             s_lang_title: "Programming Languages",
@@ -210,11 +240,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    /* --- Golden Hour Tea media tabs (video / render / clay) --- */
+    document.querySelectorAll('.tea-showcase').forEach(showcase => {
+        const tabs = showcase.querySelectorAll('.tea-tab');
+        const media = showcase.querySelectorAll('.tea-media');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const target = tab.getAttribute('data-tea-target');
+
+                tabs.forEach(t => t.classList.toggle('active', t === tab));
+                media.forEach(m => {
+                    const isTarget = m.getAttribute('data-tea') === target;
+                    m.classList.toggle('active', isTarget);
+                    if (m.tagName === 'VIDEO' && !isTarget) m.pause();
+                });
+            });
+        });
+    });
+
     /* --- Navbar Interceptor for Split Categories --- */
     document.querySelectorAll('.nav-links a, .mobile-nav a').forEach(link => {
         link.addEventListener('click', (e) => {
             const href = link.getAttribute('href');
-            if (href === '#projects-ai' || href === '#projects-game') {
+            const hrefFilterMap = {
+                '#projects-ai': 'ai',
+                '#projects-game': 'game',
+                '#projects-modeling': 'modeling'
+            };
+
+            if (hrefFilterMap[href]) {
                 e.preventDefault();
 
                 // Scroll to main projects section
@@ -227,7 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 // Trigger the correct filter button automatically
-                const filterTarget = href === '#projects-ai' ? 'ai' : 'game';
+                const filterTarget = hrefFilterMap[href];
                 const targetBtn = document.querySelector(`.filter-btn[data-filter="${filterTarget}"]`);
                 if (targetBtn) targetBtn.click();
             }
@@ -321,7 +376,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (lowerInput.includes('yetenek') || lowerInput.includes('dil') || lowerInput.includes('ne biliyor')) {
                 return "Duygu'nun teknik yelpazesi geniştir! Python, C#, C++, JavaScript kullanır. Unity ve Unreal Engine ile oyun/VR geliştirirken, yapay zekada LLaMA, RAG ve Agentic sistemlerle (LLM) ilgilenir. 🧠";
             } else if (lowerInput.includes('proje') || lowerInput.includes('oyun') || lowerInput.includes('neler yaptı')) {
-                return "Birçok yenilikçi projesi var! En büyükleri: WebSocket'li 3D Avatar (ELA), Doğal Dil Tabanlı Analiz Sistemi, VR Deprem Simülasyonu ve 'Brewing Bad' adında oyun ekonomi simülasyonu bulunuyor. 🚀 (Daha fazlası yukarıdaki Projeler listesinde!)";
+                return "Birçok yenilikçi projesi var! En büyükleri: 3D Avatar Destekli Otobüs Bileti Rezervasyon Asistanı, Doğal Dil Tabanlı Analiz Sistemi, VR Deprem Simülasyonu ve 'Brewing Bad' adında oyun ekonomi simülasyonu bulunuyor. 🚀 (Daha fazlası yukarıdaki Projeler listesinde!)";
             } else if (lowerInput.includes('merhaba') || lowerInput.includes('selam') || lowerInput.includes('hi')) {
                 return "Selam! 😄 Portfolyoda gezmek nasıl gidiyor? Duygu'nun yeteneklerini, projelerini merak ediyorsan hemen sorabilirsin.";
             } else if (lowerInput.includes('iletişim') || lowerInput.includes('ulaş') || lowerInput.includes('mail')) {
@@ -333,7 +388,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (lowerInput.includes('skill') || lowerInput.includes('language') || lowerInput.includes('know')) {
                 return "Duygu has a broad technical stack! She uses Python, C#, C++, JavaScript. While she develops game/VR with Unity and Unreal Engine, she works with LLaMA, RAG and Agentic systems in AI. 🧠";
             } else if (lowerInput.includes('project') || lowerInput.includes('game') || lowerInput.includes('did')) {
-                return "She actually has several innovative projects! Top ones: 3D Avatar with WebSocket (ELA), VR Earthquake Simulation, and a simulation game called 'Brewing Bad'. 🚀 (Check the section above for more!)";
+                return "She actually has several innovative projects! Top ones: the 3D Avatar-Powered Bus Ticket Reservation Assistant, VR Earthquake Simulation, and a simulation game called 'Brewing Bad'. 🚀 (Check the section above for more!)";
             } else if (lowerInput.includes('hi') || lowerInput.includes('hello')) {
                 return "Hello! 😄 How's your scrolling going? Feel free to ask me anything about Duygu's skills or projects.";
             } else if (lowerInput.includes('contact') || lowerInput.includes('reach') || lowerInput.includes('email')) {
