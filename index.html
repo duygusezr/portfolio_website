@@ -76,8 +76,62 @@
                             class="fa-brands fa-linkedin-in"></i></a>
                 </div>
             </div>
-            <div class="hero-avatar" id="vrm-container">
-                <!-- 3D VRM Avatar Canvas will be injected here -->
+            <div class="hero-avatar" id="mascot-container">
+                <svg class="mascot" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" role="img"
+                    aria-label="El sallayan stilize maskot karakteri">
+                    <defs>
+                        <linearGradient id="mascotBody" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#8b5cf6" />
+                            <stop offset="55%" stop-color="#6d6bf0" />
+                            <stop offset="100%" stop-color="#3b82f6" />
+                        </linearGradient>
+                        <radialGradient id="mascotShadow" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="#000000" stop-opacity="0.45" />
+                            <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+                        </radialGradient>
+                    </defs>
+
+                    <ellipse class="mascot-shadow" cx="200" cy="460" rx="110" ry="22" fill="url(#mascotShadow)" />
+
+                    <g class="mascot-float">
+                        <!-- Static left arm resting on body -->
+                        <line x1="120" y1="270" x2="90" y2="330" stroke="url(#mascotBody)" stroke-width="34"
+                            stroke-linecap="round" />
+                        <circle cx="90" cy="330" r="22" fill="url(#mascotBody)" />
+
+                        <!-- Body -->
+                        <path
+                            d="M200,60 C262,60 304,110 304,180 L304,330 C304,398 258,450 200,450 C142,450 96,398 96,330 L96,180 C96,110 138,60 200,60 Z"
+                            fill="url(#mascotBody)" />
+
+                        <!-- Screen/visor -->
+                        <rect x="140" y="175" width="120" height="70" rx="26" fill="#151522" />
+                        <circle class="mascot-eye" cx="175" cy="210" r="9" fill="#a5b4fc" />
+                        <circle class="mascot-eye" cx="225" cy="210" r="9" fill="#a5b4fc" />
+
+                        <!-- Blush -->
+                        <ellipse cx="150" cy="235" rx="10" ry="6" fill="#ec4899" opacity="0.35" />
+                        <ellipse cx="250" cy="235" rx="10" ry="6" fill="#ec4899" opacity="0.35" />
+
+                        <!-- Antenna -->
+                        <line x1="200" y1="60" x2="200" y2="30" stroke="url(#mascotBody)" stroke-width="8"
+                            stroke-linecap="round" />
+                        <circle class="mascot-antenna" cx="200" cy="24" r="12" fill="#ec4899" />
+
+                        <!-- Waving right arm -->
+                        <g class="mascot-wave">
+                            <line x1="285" y1="260" x2="345" y2="195" stroke="url(#mascotBody)" stroke-width="36"
+                                stroke-linecap="round" />
+                            <circle cx="345" cy="195" r="23" fill="url(#mascotBody)" />
+                        </g>
+                    </g>
+
+                    <!-- Floating tech particles -->
+                    <text class="mascot-particle particle-1" x="55" y="140" font-size="26"
+                        fill="#8b5cf6">&lt;/&gt;</text>
+                    <circle class="mascot-particle particle-2" cx="340" cy="360" r="7" fill="#3b82f6" />
+                    <circle class="mascot-particle particle-3" cx="70" cy="380" r="5" fill="#ec4899" />
+                </svg>
             </div>
         </div>
     </header>
@@ -396,19 +450,6 @@
     </footer>
 
     <script src="script.js"></script>
-
-    <!-- 3D Avatar Map and Script -->
-    <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
-    <script type="importmap">
-    {
-      "imports": {
-        "three": "https://unpkg.com/three@0.164.0/build/three.module.js",
-        "three/addons/": "https://unpkg.com/three@0.164.0/examples/jsm/",
-        "@pixiv/three-vrm": "https://unpkg.com/@pixiv/three-vrm@3.0.0/lib/three-vrm.module.js"
-      }
-    }
-    </script>
-    <script type="module" src="avatar.js"></script>
 </body>
 
 </html>
